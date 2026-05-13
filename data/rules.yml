@@ -36,6 +36,15 @@ rules:
       - intent: confirm_readiness
       - action: action_confirm_readiness
 
+  - rule: Provide name in greeting phase
+    condition:
+      - slot_was_set:
+          - interview_stage: greeting
+    steps:
+      - intent: provide_name
+      - action: utter_confirm_name
+      - action: action_say_utter_ask_experience
+
   - rule: Candidate doubts selection outcome
     steps:
       - intent: unsuitable
@@ -98,6 +107,33 @@ rules:
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
+  - rule: Route viz tools answer da
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: answer_viz_tools
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Route sql level answer da
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: answer_sql_level
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Route provide skills answer da
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: provide_skills
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
   - rule: Route role interview answer pm
     condition:
       - slot_was_set:
@@ -142,6 +178,38 @@ rules:
       - intent: no_experience
       - action: action_route_to_role_interview
 
+  - rule: No experience answer routes to role interview de
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: no_experience
+      - action: action_route_to_role_interview
+
+  - rule: No experience answer routes to role interview da
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: no_experience
+      - action: action_route_to_role_interview
+
+  - rule: No experience answer routes to role interview pm
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: no_experience
+      - action: action_route_to_role_interview
+
+  - rule: No experience answer routes to role interview mlops
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_mlops
+    steps:
+      - intent: no_experience
+      - action: action_route_to_role_interview
+
   - rule: Collect salary after role interview
     condition:
       - slot_was_set:
@@ -157,3 +225,20 @@ rules:
     steps:
       - intent: provide_salary
       - action: action_collect_salary
+
+  - rule: Any answer in DA interview routes to role interview
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: affirm
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Generic answer in DA interview
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: no_experience
+      - action: action_route_to_role_interview

@@ -1,0 +1,30 @@
+{
+  "candidate_name": null,
+  "desired_role": "project_manager",
+  "experience_years": null,
+  "is_suitable": false,
+  "salary_expectation": 67.0,
+  "interview_stage": "not_suitable",
+  "unsuitable_reason": "Не заполнены ключевые навыки.",
+  "role_specific_slots": {
+    "ds_ml_experience": null,
+    "ds_python_level": null,
+    "ds_frameworks": null,
+    "ds_has_production": null,
+    "ds_python_risk": null,
+    "de_pipeline_experience": null,
+    "de_tools": null,
+    "de_cloud_experience": null,
+    "de_sql_level": null,
+    "da_viz_tools": null,
+    "da_sql_level": null,
+    "da_business_domain": null,
+    "pm_team_size": null,
+    "pm_methodology": null,
+    "pm_ml_understanding": null,
+    "mlops_ci_cd": null,
+    "mlops_tools": null,
+    "mlops_monitoring": null
+  },
+  "timestamp": "2026-05-13T19:25:54.917781+00:00"
+}

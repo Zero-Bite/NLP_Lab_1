@@ -269,7 +269,7 @@ responses:
     - text: "Принял."
 
   utter_transition_to_role_questions:
-    - text: "Теперь несколько вопросов по позиции {desired_role}."
+    - text: "Отлично, переходим к профессиональным вопросам."
 
   utter_ask_ds_ml_experience:
     - text: "Расскажите об опыте разработки ML-моделей."

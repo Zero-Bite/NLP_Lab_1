@@ -270,6 +270,10 @@ class ActionGreet(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
+        # If interview already started (name known or stage set), don't re-greet
+        stage = tracker.get_slot("interview_stage")
+        if stage and stage not in ("idle", None):
+            return []
         dispatcher.utter_message(response="utter_greet")
         return [
             SlotSet("interview_stage", "greeting"),
@@ -430,6 +434,9 @@ class ActionRouteToRoleInterview(Action):
             dispatcher.utter_message(response="utter_ask_role")
             return [SlotSet("last_question_key", "utter_ask_role")]
 
+        current_stage = tracker.get_slot("interview_stage")
+        entering_interview = current_stage == "collect_role"
+
         pending: Dict[str, Any] = {}
         events: List[Dict[Text, Any]] = [
             SlotSet("interview_stage", _role_interview_stage(role)),
@@ -441,7 +448,7 @@ class ActionRouteToRoleInterview(Action):
             pending["ds_ml_experience"] = text_raw
         if intent == "answer_pipeline_experience":
             pending["de_pipeline_experience"] = text_raw
-        if intent == "answer_business_domain":
+        if intent == "answer_business_domain" or (last_key == "utter_ask_da_domain" and intent not in {"stop_interview", "goodbye", "ask_repeat", "out_of_scope"}):
             pending["da_business_domain"] = text_raw
         if intent == "answer_methodology":
             pending["pm_methodology"] = _extract_list_from_text(text_raw)
@@ -459,10 +466,17 @@ class ActionRouteToRoleInterview(Action):
                 pending["de_tools"] = _extract_list_from_text(text_raw)
             elif last_key == "utter_ask_mlops_tools":
                 pending["mlops_tools"] = _extract_list_from_text(text_raw)
+            elif last_key == "utter_ask_da_viz":
+                pending["da_viz_tools"] = _extract_list_from_text(text_raw)
+            elif last_key == "utter_ask_da_domain":
+                pending["da_business_domain"] = text_raw
             elif role == "data_scientist":
                 lvl = _norm_python_level(text_lower)
                 if lvl is not None:
                     pending["ds_python_level"] = lvl
+            elif role == "data_analyst":
+                # generic fallback: treat as viz tools if that's still missing
+                pending["da_viz_tools"] = _extract_list_from_text(text_raw)
 
         if intent == "answer_tools":
             if role == "data_engineer":
@@ -470,7 +484,7 @@ class ActionRouteToRoleInterview(Action):
             if role == "mlops_engineer":
                 pending["mlops_tools"] = _extract_list_from_text(text_raw)
 
-        if intent == "answer_viz_tools":
+        if intent == "answer_viz_tools" or (intent == "provide_skills" and last_key == "utter_ask_da_viz"):
             pending["da_viz_tools"] = _extract_list_from_text(text_raw)
 
         if intent == "answer_skill_python":
@@ -483,11 +497,11 @@ class ActionRouteToRoleInterview(Action):
             elif level is not None:
                 pending["ds_python_risk"] = False
 
-        if intent == "answer_sql_level":
+        if intent == "answer_sql_level" or (last_key == "utter_ask_da_sql" and intent in {"affirm", "deny", "provide_skills", "answer_sql_level"}):
             if role == "data_engineer":
-                pending["de_sql_level"] = _norm_sql_level(text_lower)
+                pending["de_sql_level"] = _norm_sql_level(text_lower) or "intermediate"
             if role == "data_analyst":
-                pending["da_sql_level"] = _norm_sql_level(text_lower)
+                pending["da_sql_level"] = _norm_sql_level(text_lower) or "intermediate"
 
         if intent == "answer_cloud_experience":
             val = _norm_bool(text_lower)
@@ -537,6 +551,16 @@ class ActionRouteToRoleInterview(Action):
 
         next_q, extra = _next_question_response(gv)
         events.extend(extra)
+        if entering_interview:
+            role_labels = {
+                "data_scientist": "Data Scientist",
+                "data_engineer": "Data Engineer",
+                "data_analyst": "Data Analyst",
+                "project_manager": "Project Manager",
+                "mlops_engineer": "MLOps Engineer",
+            }
+            role_label = role_labels.get(role, role)
+            dispatcher.utter_message(text=f"Теперь несколько вопросов по позиции {role_label}.")
         dispatcher.utter_message(response=next_q)
         events.append(SlotSet("last_question_key", next_q))
         return events
