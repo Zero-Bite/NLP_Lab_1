@@ -174,6 +174,12 @@ nlu:
       - [Женя](candidate_name)
       - [Катя](candidate_name)
       - [Настя](candidate_name)
+      - [Афдотий](candidate_name)
+      - [Иван](candidate_name)
+      - [Даниил](candidate_name)
+      - [Максим](candidate_name)
+      - [Александр](candidate_name)
+      - [Алексей](candidate_name)
 
   - intent: provide_experience
     examples: |
@@ -453,6 +459,15 @@ nlu:
       - Команда примерно 7 человек
       - Было 11 человек включая аналитиков
       - Пиково управлял 14 людьми
+      - 67
+      - 20
+      - 30
+      - 50
+      - Максимум 67 человек
+      - Координировал 67 человек
+      - Команда была 67 человек
+      - Около 67 участников
+      - 67 человек в команде
 
   - intent: answer_methodology
     examples: |
@@ -468,6 +483,11 @@ nlu:
       - На проекте была каскадная модель
       - Гибкая методология, ближе к Agile
       - Использовал mix Waterfall и Agile
+      - Scrum, Kanban, Waterfall
+      - Scrum, Kanban и Waterfall
+      - Использовал Scrum, Kanban, Waterfall
+      - Работал со Scrum, Kanban и Waterfall
+      - Применял Scrum, Kanban, Waterfall
 
   - intent: answer_ml_understanding
     examples: |
@@ -483,6 +503,15 @@ nlu:
       - Могу обсуждать риски дрейфа и переобучения
       - Уровень понимания ML: none
       - Уровень понимания ML: good
+      - Высоко
+      - Разбираюсь
+      - Хорошо разбираюсь
+      - Понимаю ML-проекты
+      - Понимаю специфику ML-проектов
+      - Достаточно хорошо понимаю ML
+      - На хорошем уровне
+      - Уверенно понимаю
+      - Есть понимание ML-проектов
 
   - intent: answer_cicd_experience
     examples: |

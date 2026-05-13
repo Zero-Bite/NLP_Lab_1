@@ -134,12 +134,30 @@ rules:
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - rule: Route role interview answer pm
+  - rule: Route role interview answer pm team size
     condition:
       - slot_was_set:
           - interview_stage: interview_pm
     steps:
       - intent: answer_team_size
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Route role interview answer pm methodology
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: answer_methodology
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Route role interview answer pm ml understanding
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: answer_ml_understanding
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 

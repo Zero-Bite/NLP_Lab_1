@@ -1,0 +1,33 @@
+{
+  "candidate_name": "Гриша",
+  "desired_role": "project_manager",
+  "experience_years": "1",
+  "is_suitable": true,
+  "salary_expectation": 120.0,
+  "interview_stage": "assessment",
+  "unsuitable_reason": "",
+  "role_specific_slots": {
+    "ds_ml_experience": null,
+    "ds_python_level": null,
+    "ds_frameworks": null,
+    "ds_has_production": null,
+    "ds_python_risk": null,
+    "de_pipeline_experience": null,
+    "de_tools": null,
+    "de_cloud_experience": null,
+    "de_sql_level": null,
+    "da_viz_tools": null,
+    "da_sql_level": null,
+    "da_business_domain": null,
+    "pm_team_size": 67.0,
+    "pm_methodology": [
+      "scrum",
+      "kanban"
+    ],
+    "pm_ml_understanding": "basic",
+    "mlops_ci_cd": null,
+    "mlops_tools": null,
+    "mlops_monitoring": null
+  },
+  "timestamp": "2026-05-13T20:23:24.706561+00:00"
+}
