@@ -1,0 +1,383 @@
+version: "3.1"
+
+intents:
+  - greet
+  - goodbye
+  - affirm
+  - deny
+  - stop_interview
+  - ask_repeat
+  - out_of_scope
+  - fallback
+  - confirm_readiness
+  - provide_name
+  - provide_experience
+  - provide_desired_role
+  - provide_role_preference
+  - provide_salary_expectation
+  - provide_salary
+  - provide_skills
+  - provide_project_experience
+  - answer_skill_python
+  - answer_ml_experience
+  - answer_frameworks
+  - answer_production_experience
+  - answer_pipeline_experience
+  - answer_tools
+  - answer_cloud_experience
+  - answer_sql_level
+  - answer_viz_tools
+  - answer_business_domain
+  - answer_team_size
+  - answer_methodology
+  - answer_ml_understanding
+  - answer_cicd_experience
+  - answer_monitoring_experience
+  - no_experience
+  - unsuitable
+  - nlu_fallback
+
+entities:
+  - candidate_name
+  - experience_years
+  - desired_role
+  - salary_expectation
+  - pm_team_size
+
+slots:
+  candidate_name:
+    type: text
+    mappings:
+      - type: from_entity
+        entity: candidate_name
+
+  experience_years:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: experience_years
+
+  desired_role:
+    type: categorical
+    values:
+      - data_scientist
+      - data_engineer
+      - data_analyst
+      - project_manager
+      - mlops_engineer
+    mappings:
+      - type: from_entity
+        entity: desired_role
+
+  salary_expectation:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: salary_expectation
+
+  interview_stage:
+    type: categorical
+    values:
+      - idle
+      - greeting
+      - collect_name
+      - collect_experience
+      - collect_role
+      - interview_ds
+      - interview_de
+      - interview_da
+      - interview_pm
+      - interview_mlops
+      - not_suitable
+      - collect_salary
+      - assessment
+      - farewell
+      - end
+    mappings:
+      - type: custom
+
+  last_question_key:
+    type: text
+    mappings:
+      - type: custom
+
+  ask_repeat_count:
+    type: float
+    mappings:
+      - type: custom
+
+  clarify_count:
+    type: float
+    mappings:
+      - type: custom
+
+  salary_parse_attempts:
+    type: float
+    mappings:
+      - type: custom
+
+  ds_python_risk:
+    type: bool
+    mappings:
+      - type: custom
+
+  is_suitable:
+    type: bool
+    mappings:
+      - type: custom
+
+  unsuitable_reason:
+    type: text
+    mappings:
+      - type: custom
+
+  out_of_scope_count:
+    type: float
+    initial_value: 0
+    mappings:
+      - type: custom
+
+  ds_ml_experience:
+    type: text
+    mappings:
+      - type: from_text
+  ds_python_level:
+    type: categorical
+    values:
+      - beginner
+      - intermediate
+      - advanced
+    mappings:
+      - type: custom
+  ds_frameworks:
+    type: list
+    mappings:
+      - type: custom
+  ds_has_production:
+    type: bool
+    mappings:
+      - type: custom
+
+  de_pipeline_experience:
+    type: text
+    mappings:
+      - type: from_text
+  de_tools:
+    type: list
+    mappings:
+      - type: custom
+  de_cloud_experience:
+    type: bool
+    mappings:
+      - type: custom
+  de_sql_level:
+    type: categorical
+    values:
+      - beginner
+      - intermediate
+      - advanced
+    mappings:
+      - type: custom
+
+  da_viz_tools:
+    type: list
+    mappings:
+      - type: custom
+  da_sql_level:
+    type: categorical
+    values:
+      - beginner
+      - intermediate
+      - advanced
+    mappings:
+      - type: custom
+  da_business_domain:
+    type: text
+    mappings:
+      - type: from_text
+
+  pm_team_size:
+    type: float
+    mappings:
+      - type: from_entity
+        entity: pm_team_size
+  pm_methodology:
+    type: list
+    mappings:
+      - type: custom
+  pm_ml_understanding:
+    type: categorical
+    values:
+      - none
+      - basic
+      - good
+    mappings:
+      - type: custom
+
+  mlops_ci_cd:
+    type: bool
+    mappings:
+      - type: custom
+  mlops_tools:
+    type: list
+    mappings:
+      - type: custom
+  mlops_monitoring:
+    type: bool
+    mappings:
+      - type: custom
+
+responses:
+  utter_greet:
+    - text: "Привет! Я HR-бот. Проведу первичное интервью (примерно пять–семь минут). Задам вопросы по очереди: по одному за раз. Как вас зовут?"
+
+  utter_ask_name:
+    - text: "Как вас зовут?"
+
+  utter_intro_after_readiness:
+    - text: "Понятно. Тогда начнём с короткого блока про вас: как вас зовут?"
+
+  utter_confirm_name:
+    - text: "Приятно познакомиться, {candidate_name}!"
+
+  utter_ask_experience:
+    - text: "Сколько лет у вас опыта в IT или сфере данных?"
+
+  utter_low_experience_warning:
+    - text: "У нас открыты позиции, которые требуют опыта. Расскажите — были ли стажировки или учебные проекты?"
+
+  utter_ask_role:
+    - text: "Какая позиция вас интересует?"
+      buttons:
+        - title: "Data Scientist"
+          payload: '/provide_desired_role{"desired_role": "data_scientist"}'
+        - title: "Data Engineer"
+          payload: '/provide_desired_role{"desired_role": "data_engineer"}'
+        - title: "Data Analyst"
+          payload: '/provide_desired_role{"desired_role": "data_analyst"}'
+        - title: "Project Manager"
+          payload: '/provide_desired_role{"desired_role": "project_manager"}'
+        - title: "MLOps Engineer"
+          payload: '/provide_desired_role{"desired_role": "mlops_engineer"}'
+
+  utter_unknown_role_hint:
+    - text: "Сейчас мы набираем на роли Data Scientist, Data Engineer, Data Analyst, Project Manager и MLOps Engineer. Если что-то из этого подходит — напишите, пожалуйста, какая позиция ближе."
+
+  utter_confirm_receipt:
+    - text: "Понятно, записал."
+    - text: "Хорошо, двигаемся дальше."
+    - text: "Принял."
+
+  utter_transition_to_role_questions:
+    - text: "Теперь несколько вопросов по позиции {desired_role}."
+
+  utter_ask_ds_ml_experience:
+    - text: "Расскажите об опыте разработки ML-моделей."
+  utter_ask_ds_python_level:
+    - text: "Какой у вас уровень Python? (начальный / средний / продвинутый)"
+  utter_ask_ds_frameworks:
+    - text: "Какие ML-фреймворки использовали? Например, sklearn, PyTorch, TensorFlow, CatBoost."
+  utter_ask_ds_production:
+    - text: "Был ли опыт вывода ML-моделей в production?"
+
+  utter_ask_de_pipeline:
+    - text: "Опишите опыт с ETL/ELT пайплайнами."
+  utter_ask_de_tools:
+    - text: "Какие инструменты использовали? Например, Airflow, Spark, dbt, Kafka."
+  utter_ask_de_cloud:
+    - text: "Есть ли опыт с облачными платформами — AWS, GCP, Azure, Yandex Cloud?"
+  utter_ask_de_sql:
+    - text: "Как оцените свой уровень SQL?"
+
+  utter_ask_da_domain:
+    - text: "В каких предметных областях работали аналитиком?"
+  utter_ask_da_viz:
+    - text: "Какие инструменты визуализации используете? Например, Tableau, Power BI, Plotly."
+  utter_ask_da_sql:
+    - text: "Оцените свой уровень SQL: базовый, средний или продвинутый?"
+
+  utter_ask_pm_team_size:
+    - text: "Какой максимальный размер команды вы координировали?"
+  utter_ask_pm_methodology:
+    - text: "Какие методологии применяли? Scrum, Kanban, Waterfall или гибрид?"
+  utter_ask_pm_ml_understanding:
+    - text: "Как оцените своё понимание ML-проектов и их специфики?"
+
+  utter_ask_mlops_cicd:
+    - text: "Есть ли опыт CI/CD для ML-проектов?"
+  utter_ask_mlops_tools:
+    - text: "Какие MLOps-инструменты знаете? Например, MLflow, Kubeflow, Docker, Kubernetes."
+  utter_ask_mlops_monitoring:
+    - text: "Есть ли опыт мониторинга моделей — дрейф данных, метрики качества?"
+
+  utter_ask_salary:
+    - text: "Какой уровень вознаграждения вас интересует (₽/мес, до вычета налогов)?"
+  utter_salary_format_hint:
+    - text: "Укажите сумму цифрами, например: 150000."
+
+  utter_farewell_suitable:
+    - text: "Спасибо, {candidate_name}. На основе нашего разговора ваш профиль соответствует позиции {desired_role}. Наш специалист свяжется с вами в течение двух рабочих дней."
+
+  utter_farewell_not_suitable:
+    - text: "Спасибо за участие, {candidate_name}. К сожалению, на данный момент ваш профиль не совпадает с нашими открытыми позициями. Мы сохраним данные и свяжемся при появлении подходящей вакансии."
+
+  utter_farewell_stopped:
+    - text: "Понятно. Если захотите продолжить позже — просто напишите снова. Спасибо за ваше время."
+
+  utter_ask_repeat_rephrase:
+    - text: "Повторяю вопрос: {last_question}. Например, можно ответить так: {example}."
+
+  utter_out_of_scope:
+    - text: "Это вне моей зоны. Вернёмся к интервью: {last_question}"
+
+  utter_clarify_options:
+    - text: "Уточните, пожалуйста: начальный, средний или продвинутый?"
+
+  utter_not_recognized:
+    - text: "Кажется, я не распознал ответ. Попробуйте сформулировать иначе."
+
+  utter_unclear_move_on:
+    - text: "Понятно. Зафиксирую как есть и перейду к следующему вопросу."
+
+  utter_goodbye:
+    - text: "До свидания! Было приятно пообщаться."
+
+  utter_unsuitable_ack:
+    - text: "Сейчас я не принимаю решений по отбору: сначала соберу ответы. Если захотите продолжить — ответьте на текущий вопрос."
+
+actions:
+  - action_greet
+  - action_say_utter_ask_experience
+  - action_say_utter_ask_role
+  - action_say_utter_low_experience_warning
+  - action_say_utter_ask_ds_ml_experience
+  - action_say_utter_ask_ds_python_level
+  - action_say_utter_ask_ds_frameworks
+  - action_say_utter_ask_ds_production
+  - action_say_utter_ask_de_pipeline
+  - action_say_utter_ask_de_tools
+  - action_say_utter_ask_de_cloud
+  - action_say_utter_ask_de_sql
+  - action_say_utter_ask_da_domain
+  - action_say_utter_ask_da_viz
+  - action_say_utter_ask_da_sql
+  - action_say_utter_ask_pm_team_size
+  - action_say_utter_ask_pm_methodology
+  - action_say_utter_ask_pm_ml_understanding
+  - action_say_utter_ask_mlops_cicd
+  - action_say_utter_ask_mlops_tools
+  - action_say_utter_ask_mlops_monitoring
+  - action_route_to_role_interview
+  - action_assess_candidate
+  - action_handle_out_of_scope
+  - action_save_candidate_data
+  - action_ask_repeat
+  - action_confirm_readiness
+  - action_collect_salary
+  - action_handle_unsuitable
+  - action_handle_unclear_answer
+  - action_default_fallback
+
+session_config:
+  session_expiration_time: 60
+  carry_over_slots_to_new_session: true

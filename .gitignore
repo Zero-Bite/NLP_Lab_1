@@ -1,0 +1,11 @@
+.venv/
+.rasa/
+__pycache__/
+*.pyc
+.DS_Store
+models/
+*.tar.gz
+cache/
+*.log
+.vscode/
+.idea/

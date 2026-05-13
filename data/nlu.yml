@@ -1,0 +1,670 @@
+version: "3.1"
+
+nlu:
+  - intent: greet
+    examples: |
+      - Прив
+      - Привет
+      - Здравствуйте
+      - Хай
+      - Начнём
+      - Приветствую
+      - Добрый день
+      - Приветик
+      - Добрый вечер
+      - Рад видеть
+      - Привет, можно начать?
+      - Привет, рад знакомству
+      - Добрый день, готов отвечать
+      - Привет!
+      - Здравствуй
+      - Добрый час
+      - Здравствуйте, вы на связи?
+
+  - intent: goodbye
+    examples: |
+      - Пока
+      - До свидания
+      - Всего хорошего
+      - Спасибо, до встречи
+      - До скорого
+      - Благодарю за беседу
+      - Желаю удачи
+      - До новых встреч
+      - Всего наилучшего
+      - Благодарю, всего доброго
+      - До свидания, приятного дня
+      - Пока, удачного дня
+      - Спасибо за разговор
+      - До встречи
+      - Пока-пока
+      - На этом всё, спасибо
+
+  - intent: affirm
+    examples: |
+      - Да
+      - Верно
+      - Конечно
+      - Именно так
+      - Точно
+      - Всё правильно
+      - Согласен
+      - Подтверждаю
+      - Ага
+      - Так и есть
+
+  - intent: deny
+    examples: |
+      - Нет
+      - Не совсем
+      - Это не так
+      - Нет, не правильно
+      - Не верно
+      - Неа
+      - Не то
+      - Не совпадает
+      - Ошибаетесь
+      - Нет, неправда
+
+  - intent: stop_interview
+    examples: |
+      - Хочу остановиться
+      - Передумал
+      - Прекратим интервью
+      - Хочу выйти
+      - Остановите
+      - Хватит
+      - Не хочу продолжать
+      - Прервите собеседование
+      - Стоп
+      - Завершим
+
+  - intent: ask_repeat
+    examples: |
+      - Повторите, пожалуйста
+      - Не понял вопрос
+      - Можете повторить?
+      - Скажите ещё раз
+      - Что вы спросили?
+      - Не расслышал
+      - Переспрошу
+      - Повторите вопрос
+      - Ещё раз, пожалуйста
+      - Не уловил
+
+  - intent: out_of_scope
+    examples: |
+      - Какая погода?
+      - Сколько стоит iPhone?
+      - Расскажи анекдот
+      - Как дела?
+      - Что нового?
+      - Скажи что-нибудь смешное
+      - Где поесть рядом?
+      - Что посмотреть?
+      - Лучший фильм года?
+      - Сколько время?
+
+  - intent: fallback
+    examples: |
+      - Я не понимаю
+      - Повторите вопрос
+      - Что вы имеете в виду?
+      - Не могу ответить
+      - Не понял
+      - Поясните, пожалуйста
+      - Скажите иначе
+      - Не понимаю вопрос
+      - Не уверен, что понял
+      - Можете повторить?
+      - Не понял вас
+      - Объясните по-другому
+      - Повторите, пожалуйста
+      - Не понял фразу
+      - Не могу интерпретировать
+      - Не уверен, как ответить
+      - Сформулируйте иначе, пожалуйста
+      - Не уловил суть
+      - Непонятный вопрос
+      - Уточните формулировку
+
+  - intent: confirm_readiness
+    examples: |
+      - Да, готов отвечать
+      - Я готов
+      - Можно начинать интервью
+      - Готов пройти собеседование
+      - Начнём
+      - Готов отвечать на вопросы
+      - Да, можно начинать
+      - Я готов к диалогу
+      - Начинаем интервью
+      - Готов к собеседованию
+      - Да, я готов
+      - Можно начинать вопросы
+      - Готов к общению
+      - Да, можно задавать вопросы
+      - Начнём беседу
+      - Готов продолжать
+
+  - intent: provide_name
+    examples: |
+      - Меня зовут [Алексей](candidate_name)
+      - Я [Ольга](candidate_name)
+      - Здравствуйте, меня зовут [Дмитрий](candidate_name)
+      - Имя [Анна](candidate_name)
+      - Можно просто [Сергей](candidate_name)
+      - [Ирина](candidate_name)
+      - Обращайтесь [Павел](candidate_name)
+      - Моё имя [Наталья](candidate_name)
+      - Я [Михаил](candidate_name), приятно познакомиться
+      - [Екатерина](candidate_name), добрый день
+      - Меня зовут [Роман](candidate_name) Иванов
+      - [Мария](candidate_name), можно начинать
+      - [Андрей](candidate_name), рад знакомству
+      - [Юлия](candidate_name) Петрова
+      - В анкете указано [Константин](candidate_name)
+      - Это [Виктория](candidate_name)
+      - Я [Григория](candidate_name) часто называют Гриша
+      - Меня зовут [Евгения](candidate_name), но можно Женя
+      - [Никита](candidate_name), если в именительном
+      - От [Артёма](candidate_name), давайте продолжим
+
+  - intent: provide_experience
+    examples: |
+      - У меня [3](experience_years) года опыта
+      - Работал [5](experience_years) лет
+      - Опыт работы [2.5](experience_years) года
+      - [10](experience_years) лет в аналитике
+      - Работал [0.5](experience_years) года
+      - Опыт [3](experience_years) года в ML
+      - Уже [7](experience_years) лет в Data Science
+      - Примерно [4](experience_years) года
+      - Всего [1](experience_years) год опыта
+      - Опыт — [6](experience_years) месяцев
+      - В IT я [8](experience_years) лет
+      - Суммарно [1.5](experience_years) года
+      - Около [0.3](experience_years) года
+      - Почти [9](experience_years) лет
+      - Работал где-то [11](experience_years) лет
+      - У меня [36](experience_years) месяцев опыта
+      - Опыт [12](experience_years) месяцев
+      - Порядка [2](experience_years) лет в данных
+      - Почти [0.8](experience_years) года
+      - Стаж [14](experience_years) лет
+
+  - intent: provide_desired_role
+    examples: |
+      - Хочу позицию [data_scientist](desired_role)
+      - Интересует [data_scientist](desired_role)
+      - Целюсь на роль [data_scientist](desired_role)
+      - Рассматриваю вакансию [data_scientist](desired_role)
+      - Хочу работать [data_engineer](desired_role)
+      - Мне подходит [data_engineer](desired_role)
+      - Выбираю направление [data_engineer](desired_role)
+      - Приоритетно [data_engineer](desired_role)
+      - Интересует позиция [data_analyst](desired_role)
+      - Хочу в команду как [data_analyst](desired_role)
+      - Ближе роль [data_analyst](desired_role)
+      - Целевая вакансия [data_analyst](desired_role)
+      - Рассматриваю [project_manager](desired_role)
+      - Ищу позицию [project_manager](desired_role)
+      - Хочу быть [project_manager](desired_role)
+      - Подхожу на [project_manager](desired_role)
+      - Хотел бы [mlops_engineer](desired_role)
+      - Выбираю роль [mlops_engineer](desired_role)
+      - Интересует [mlops_engineer](desired_role) в вашей команде
+      - Мне нужна вакансия [mlops_engineer](desired_role)
+
+  - intent: provide_salary_expectation
+    examples: |
+      - Ожидаю зарплату [150000](salary_expectation)
+      - Моя желаемая зарплата [200000](salary_expectation)
+      - Рассчитываю на [180000](salary_expectation)
+      - [120000](salary_expectation) в месяц
+      - Хотел бы получать [160000](salary_expectation)
+      - Для меня комфортно [150](salary_expectation)к
+      - Ориентир [220](salary_expectation)к
+      - От [120000](salary_expectation)
+      - Около [180000](salary_expectation) тысяч
+      - Хочу не меньше [170000](salary_expectation)
+      - Диапазон [190000](salary_expectation) - [210000](salary_expectation)
+      - Было бы хорошо [140000](salary_expectation)
+      - Ожидания на уровне [130000](salary_expectation)
+      - Рассмотрю [250000](salary_expectation)
+      - По рынку это [165000](salary_expectation)
+      - Можно ориентироваться на [155](salary_expectation)к
+      - От [210](salary_expectation)к до [230](salary_expectation)к
+      - Желаемый уровень [175000](salary_expectation) рублей
+      - В районе [145000](salary_expectation)
+      - Примерно [205000](salary_expectation)
+
+  - intent: answer_skill_python
+    examples: |
+      - Уровень Python intermediate
+      - Начинающий в Python
+      - Продвинутый Python
+      - Python на уровне эксперта
+      - Средний уровень Python
+      - Базовые знания Python
+      - Python intermediate+
+      - Python на уровне advanced
+      - Скорее middle по Python
+      - Уверенный intermediate по Python
+      - Я beginner в Python
+      - Работаю с Python на хорошем уровне
+      - Пишу на Python уверенно, advanced
+      - Если кратко, мой уровень Python средний
+      - Python у меня базовый
+      - По Python я ближе к senior уровню
+      - С Python пока только старт, beginner
+      - Python: intermediate
+      - Python advanced, много практики
+      - Оценю Python как продвинутый
+
+  - intent: answer_ml_experience
+    examples: |
+      - Есть опыт разработки ML-моделей
+      - Работал с нейронными сетями
+      - Создавал модели машинного обучения
+      - Опыт с sklearn, tensorflow
+      - Создавал ML пайплайны
+      - Работал с PyTorch и Keras
+      - Опыт работы с regression и classification
+      - Строил модели прогнозирования оттока
+      - Обучал бустинги и нейросети
+      - Делал feature engineering для ML-задач
+      - Проводил валидацию и тюнинг моделей
+      - Запускал эксперименты с CatBoost
+      - Есть кейсы с NLP-моделями
+      - Работал с рекомендательными системами
+      - Строил модели ранжирования
+      - Делал пайплайн обучения и инференса
+      - Писал сервис для предсказаний
+      - Использовал кросс-валидацию и A/B тесты
+      - Был опыт с time series forecasting
+      - Понимаю цикл от данных до модели
+
+  - intent: answer_frameworks
+    examples: |
+      - Использовал sklearn и keras
+      - PyTorch и TensorFlow
+      - Опыт с pandas и numpy
+      - Знаком с scikit-learn и matplotlib
+      - Использовал scikit-learn и XGBoost
+      - Airflow, Spark, dbt и Kafka
+      - Tableau и Power BI
+      - ClickHouse и PostgreSQL
+      - Hadoop, Hive и Spark SQL
+      - MLflow и Kubeflow
+      - Docker, Kubernetes и Argo
+      - Great Expectations и Airbyte
+      - Metabase и Superset
+      - Seaborn, Plotly, Altair
+      - Prefect и Luigi
+      - TensorFlow Serving и FastAPI
+      - Redash и Looker Studio
+      - Snowflake и BigQuery
+      - Pandas, Polars, Dask
+      - Jenkins, GitLab CI, GitHub Actions
+
+  - intent: answer_production_experience
+    examples: |
+      - Деплоил модели через Docker
+      - Выводил модели в production
+      - Настраивал REST API для модели
+      - Работал с Kubernetes для деплоя
+      - Нет, только исследования
+      - Да, прод выкатывали через CI/CD
+      - Делал A/B выкаты в проде
+      - Публиковал модель как сервис
+      - Нет продового опыта
+      - Настраивал мониторинг после деплоя
+      - Был продакшен на FastAPI
+      - Модели запускались в k8s-кластере
+      - Только офлайн-эксперименты, без продакшена
+      - Есть опыт сопровождения продовых моделей
+      - Не выводил модели в production
+
+  - intent: answer_pipeline_experience
+    examples: |
+      - Писал ETL на Airflow
+      - Опыт с dbt и BigQuery
+      - Строил пайплайны на Spark
+      - Работал с Kafka
+      - Писал скрипты для загрузки данных
+      - Делал ELT в DWH
+      - Поддерживал nightly ETL джобы
+      - Настраивал ingestion из API
+      - Писал DAG-и с проверками качества
+      - Делал CDC пайплайны
+      - Проектировал витрины данных
+      - Использовал Debezium + Kafka Connect
+      - Пайплайны в Databricks
+      - Настраивал оркестрацию в Prefect
+      - Автоматизировал обработку батчей
+
+  - intent: answer_tools
+    examples: |
+      - Использовал Airflow и Spark
+      - Docker и Kubernetes
+      - MLflow для трекинга
+      - Kubeflow для оркестрации
+      - dbt для трансформаций
+      - Kafka и Schema Registry
+      - Jenkins и GitLab CI
+      - Argo Workflows и Helm
+      - Terraform и Ansible
+      - Great Expectations для quality checks
+      - Databricks и Snowflake
+      - ClickHouse и Redis
+      - Prometheus и Grafana
+      - S3 + Lambda
+      - Airbyte и Fivetran
+
+  - intent: answer_cloud_experience
+    examples: |
+      - Работал с AWS S3
+      - Опыт с GCP BigQuery
+      - Использовал Azure
+      - Есть опыт с Yandex Cloud
+      - Нет опыта с облаками, только on-premise
+      - Настраивал пайплайны в AWS Glue
+      - Поднимал сервисы в GCP
+      - В Azure использовал Data Factory
+      - С Yandex Cloud знаком на базовом уровне
+      - Облака не использовал
+      - Есть практический опыт с AWS и GCP
+      - Только локальная инфраструктура без cloud
+
+  - intent: answer_sql_level
+    examples: |
+      - Пишу оконные функции
+      - Базовые SELECT-ы
+      - Продвинутый SQL
+      - Оптимизирую запросы
+      - Знаю JOIN и подзапросы
+      - Средний уровень SQL
+      - Использую CTE и оконки
+      - Уровень SQL beginner
+      - SQL у меня intermediate
+      - Могу разбирать execution plan
+      - Пишу сложные аналитические запросы
+      - Пока только простые выборки
+      - Продвинутый, умею тюнить
+      - На хорошем среднем уровне
+      - Уверенный SQL advanced
+
+  - intent: answer_viz_tools
+    examples: |
+      - Power BI — основной инструмент
+      - Работаю с Tableau
+      - Использую Plotly
+      - Excel и иногда графики
+      - Matplotlib и Seaborn
+      - Делаю дашборды в Looker Studio
+      - Metabase для оперативной аналитики
+      - Строю визуализации в Superset
+      - Использую ggplot в R
+      - Часто работаю в DataLens
+      - BI-отчёты собираю в Tableau
+      - Plotly Dash для интерактивных графиков
+
+  - intent: answer_business_domain
+    examples: |
+      - Работал в e-commerce
+      - Опыт в финтехе
+      - Аналитика в ритейле
+      - Телеком
+      - Маркетинг и продажи
+      - EdTech и обучение
+      - B2B SaaS
+      - Логистика и доставка
+      - Банковская аналитика
+      - Продуктовая аналитика в медиа
+      - Healthcare аналитика
+      - Игровая индустрия
+
+  - intent: answer_team_size
+    examples: |
+      - Команда 8 человек
+      - Управлял командой из 5
+      - Максимум 3 человека
+      - 10 человек в команде
+      - Вёл команду из 12 специалистов
+      - Обычно координировал 6 человек
+      - Самая большая команда была 15
+      - Руководил группой из 4
+      - До 9 участников в проекте
+      - Команда примерно 7 человек
+      - Было 11 человек включая аналитиков
+      - Пиково управлял 14 людьми
+
+  - intent: answer_methodology
+    examples: |
+      - Scrum
+      - Kanban
+      - Waterfall
+      - Гибрид Scrum и Kanban
+      - Использовал Agile
+      - Работал по SAFe
+      - Применял спринты и ретро
+      - Kanban для поддержки, Scrum для разработки
+      - Чаще всего Scrum с двухнедельными итерациями
+      - На проекте была каскадная модель
+      - Гибкая методология, ближе к Agile
+      - Использовал mix Waterfall и Agile
+
+  - intent: answer_ml_understanding
+    examples: |
+      - В ML не разбираюсь
+      - Базовое понимание ML
+      - Хорошо понимаю цикл данных
+      - Знаком с экспериментами и деплоем
+      - Понимаю как считать метрики качества модели
+      - Нет понимания ML-части
+      - На базовом уровне понимаю модели
+      - Хорошо ориентируюсь в ML pipeline
+      - Только общее представление о машинном обучении
+      - Могу обсуждать риски дрейфа и переобучения
+      - Уровень понимания ML: none
+      - Уровень понимания ML: good
+
+  - intent: answer_cicd_experience
+    examples: |
+      - Настраивал GitHub Actions для ML
+      - Опыт с CI/CD для моделей
+      - Не настраивал CI/CD для ML
+      - Jenkins для деплоя
+      - GitLab CI
+      - Делал пайплайн сборки и тестов для ML-сервиса
+      - Автоматизировал релизы через ArgoCD
+      - Не было практики с CI/CD
+      - Писал workflow для тренировки и деплоя
+      - Настраивал автодеплой inference-сервиса
+      - Только вручную выкатывал, без CI/CD
+      - Есть рабочий опыт с CI/CD в MLOps
+
+  - intent: answer_monitoring_experience
+    examples: |
+      - Настраивал алерты на дрейф данных
+      - Grafana для метрик
+      - Evidently для мониторинга
+      - Нет опыта с мониторингом
+      - Prometheus и Grafana
+      - Следил за качеством модели после релиза
+      - Настраивал алерты по latency и error rate
+      - Использовал MLflow monitoring
+      - Мониторил data quality и schema drift
+      - Практики мониторинга не было
+      - Делал дашборд с метриками модели
+      - Работал с алертами в Alertmanager
+
+  - intent: no_experience
+    examples: |
+      - Этого не делал
+      - С этим не работал
+      - Нет такого опыта
+      - Не сталкивался
+      - Не знаком с этим
+      - Вообще не делал такого
+      - Такого кейса не было
+      - Опыта в этом направлении нет
+      - Не приходилось заниматься
+      - Никогда это не использовал
+
+  - intent: unsuitable
+    examples: |
+      - Я не подходящий кандидат?
+      - Мне отказали?
+      - Нет опыта для этой позиции
+      - Понимаю, что я не подхожу
+      - Я не соответствую требованиям?
+      - Похоже, мне рано на эту роль
+      - Видимо, мой профиль слабый для вакансии
+      - Думаете, я не подхожу команде?
+      - Верно ли, что меня не рассматривают?
+      - Похоже, у меня недостаточно навыков
+      - Значит, сейчас я не прохожу?
+      - Получается, у меня мало релевантного опыта
+      - Я понимаю, что не соответствую
+      - Это отказ по моей кандидатуре?
+      - Вероятно, для этой позиции я не подойду
+      - Меня не берут?
+      - Не подходит моя кандидатура?
+      - Мне отказали в позиции
+      - Я не подходящий
+      - Понимаю, что не подхожу
+      - Отказали?
+      - Моя кандидатура не подходит?
+      - Не подхожу
+      - Я не удовлетворяю требованиям?
+      - Не прошёл отбор
+
+  - intent: provide_role_preference
+    examples: |
+      - Хочу на [data_scientist](desired_role)
+      - Цель — [data_engineer](desired_role)
+      - Ближе [data_analyst](desired_role)
+      - Рассматриваю [project_manager](desired_role)
+      - Интересует [mlops_engineer](desired_role)
+      - Хочу в [data_scientist](desired_role)
+      - Притягивает роль [data_engineer](desired_role)
+      - Вакансия [data_analyst](desired_role) ок
+      - Ищу позицию [project_manager](desired_role)
+      - Хочу [mlops_engineer](desired_role)
+      - На [data_scientist](desired_role) ориентируюсь
+      - В сторону [data_engineer](desired_role)
+      - Предпочту [data_analyst](desired_role)
+      - Роль [project_manager](desired_role) подходит
+      - Хочу работать [mlops_engineer](desired_role)
+      - Мне интересен [data_scientist](desired_role)
+      - Выбираю [data_engineer](desired_role)
+      - Смотрю в сторону [data_analyst](desired_role)
+      - Позиция [project_manager](desired_role)
+      - Роль [mlops_engineer](desired_role) в приоритете
+
+  - intent: provide_salary
+    examples: |
+      - Ожидаю зарплату [150000](salary_expectation)
+      - Моя желаемая зарплата [200000](salary_expectation)
+      - Рассчитываю на [180000](salary_expectation)
+      - [120000](salary_expectation) в месяц
+      - Хотел бы получать [160000](salary_expectation)
+      - Зарплата [140000](salary_expectation) устроит
+      - Желаю [170000](salary_expectation)
+      - Предпочтительно [200000](salary_expectation)
+      - Рассчитываю на [150](salary_expectation) тыс
+      - Хочу получать [180000](salary_expectation)
+      - Моя цель — [190000](salary_expectation)
+      - Желаемая зарплата [155000](salary_expectation)
+      - Зарплата около [160](salary_expectation) тыс
+      - Хотел бы [145000](salary_expectation)
+      - Желаю [175000](salary_expectation)
+      - Ориентир [220](salary_expectation)к
+      - От [130000](salary_expectation)
+      - Около [195000](salary_expectation)
+      - [210000](salary_expectation) до вычета
+      - [165000](salary_expectation) рублей в месяц
+
+  - intent: provide_skills
+    examples: |
+      - Python, SQL, sklearn, pandas
+      - Знаю Airflow, dbt, Spark
+      - Уровень Python средний, SQL продвинутый
+      - Docker, Kubernetes, Helm
+      - MLflow, Kubeflow, GitHub Actions
+      - Power BI, DAX, Excel
+      - PyTorch, numpy, matplotlib
+      - Scrum, Jira, Confluence
+      - Terraform, Ansible, Jenkins
+      - CatBoost, LightGBM, XGBoost
+      - Kafka, Debezium, Postgres
+      - Tableau, SQL, Python
+      - FastAPI, pydantic, pytest
+      - Great Expectations, Airbyte
+      - Grafana, Prometheus, Loki
+      - Snowflake, BigQuery, Redshift
+      - Polars, DuckDB, ClickHouse
+      - NLP: transformers, spaCy
+      - MLOps: ArgoCD, Seldon
+      - Визуализация: Plotly, Seaborn
+
+  - intent: provide_project_experience
+    examples: |
+      - Деплоил модель в Kubernetes через Helm
+      - Поднимал inference на FastAPI и Docker
+      - Настраивал мониторинг дрейфа в проде
+      - Выводил CatBoost в REST-сервис
+      - Делал batch-скоринг на Spark
+      - Собирал пайплайн обучения в MLflow
+      - Настраивал A/B тест для модели рекомендаций
+      - Писал feature store на Feast
+      - Интегрировал модель в микросервисную архитектуру
+      - Настраивал canary-деплой в k8s
+      - Делал CI для обучения и валидации модели
+      - Подключал модель к API Gateway
+      - Оптимизировал inference под latency SLO
+      - Версионировал артефакты в S3
+      - Настраивал алерты по качеству предсказаний
+      - Деплой через GitLab CI и Docker registry
+      - Модель в production на Yandex Cloud
+      - Выводил ONNX в Triton
+      - Оркестрация экспериментов в Kubeflow
+      - Сервинг через TensorFlow Serving
+
+  - synonym: data_scientist
+    examples: |
+      - DS
+      - Data Scientist
+      - дата-сайентист
+      - ML scientist
+      - research DS
+
+  - synonym: data_engineer
+    examples: |
+      - DE
+      - Data Engineer
+      - инженер данных
+      - ETL-инженер
+
+  - synonym: data_analyst
+    examples: |
+      - DA
+      - Data Analyst
+      - аналитик данных
+      - продуктовый аналитик
+
+  - synonym: project_manager
+    examples: |
+      - PM
+      - Project Manager
+      - проджект
+      - руководитель проектов
+
+  - synonym: mlops_engineer
+    examples: |
+      - MLOps
+      - MLOps Engineer
+      - ml ops
+      - инженер MLOps

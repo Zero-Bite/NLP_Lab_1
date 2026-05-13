@@ -1,0 +1,42 @@
+version: "3.1"
+
+rules:
+  - rule: Goodbye at any point
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+      - action: action_save_candidate_data
+
+  - rule: Stop interview at any point
+    steps:
+      - intent: stop_interview
+      - action: utter_farewell_stopped
+      - action: action_save_candidate_data
+
+  - rule: Handle out of scope
+    steps:
+      - intent: out_of_scope
+      - action: action_handle_out_of_scope
+
+  - rule: Default NLU fallback
+    steps:
+      - intent: nlu_fallback
+      - action: action_default_fallback
+
+  - rule: User asks to repeat
+    steps:
+      - intent: ask_repeat
+      - action: action_ask_repeat
+
+  - rule: Confirm readiness in greeting phase
+    condition:
+      - slot_was_set:
+          - interview_stage: greeting
+    steps:
+      - intent: confirm_readiness
+      - action: action_confirm_readiness
+
+  - rule: Candidate doubts selection outcome
+    steps:
+      - intent: unsuitable
+      - action: action_handle_unsuitable
