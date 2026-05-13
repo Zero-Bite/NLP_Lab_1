@@ -40,3 +40,120 @@ rules:
     steps:
       - intent: unsuitable
       - action: action_handle_unsuitable
+
+  - rule: Provide experience then ask role
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_experience
+    steps:
+      - intent: provide_experience
+      - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
+    wait_for_user_input: true
+
+  - rule: Provide role then transition
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_role
+    steps:
+      - intent: provide_desired_role
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+    wait_for_user_input: true
+
+  - rule: Provide role preference then transition
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_role
+    steps:
+      - intent: provide_role_preference
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+    wait_for_user_input: true
+
+  - rule: Route role interview answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: answer_ml_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Route role interview answer de
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: answer_pipeline_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Route role interview answer da
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: answer_business_domain
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Route role interview answer pm
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: answer_team_size
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Route role interview answer mlops
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_mlops
+    steps:
+      - intent: answer_cicd_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Generic skills answer routes to role interview ds
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: provide_skills
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: Generic skills answer routes to role interview de
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: answer_tools
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: No experience answer routes to role interview
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: no_experience
+      - action: action_route_to_role_interview
+
+  - rule: Collect salary after role interview
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_salary
+    steps:
+      - intent: provide_salary_expectation
+      - action: action_collect_salary
+
+  - rule: Collect salary variant 2
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_salary
+    steps:
+      - intent: provide_salary
+      - action: action_collect_salary

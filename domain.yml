@@ -35,7 +35,7 @@ intents:
   - answer_monitoring_experience
   - no_experience
   - unsuitable
-  - nlu_fallback
+  # nlu_fallback — системный интент Rasa, не объявляется в domain
 
 entities:
   - candidate_name
@@ -140,7 +140,7 @@ slots:
   ds_ml_experience:
     type: text
     mappings:
-      - type: from_text
+      - type: custom
   ds_python_level:
     type: categorical
     values:
@@ -161,7 +161,7 @@ slots:
   de_pipeline_experience:
     type: text
     mappings:
-      - type: from_text
+      - type: custom
   de_tools:
     type: list
     mappings:
@@ -194,7 +194,7 @@ slots:
   da_business_domain:
     type: text
     mappings:
-      - type: from_text
+      - type: custom
 
   pm_team_size:
     type: float
@@ -250,15 +250,15 @@ responses:
     - text: "Какая позиция вас интересует?"
       buttons:
         - title: "Data Scientist"
-          payload: '/provide_desired_role{"desired_role": "data_scientist"}'
+          payload: '/provide_desired_role{{"desired_role": "data_scientist"}}'
         - title: "Data Engineer"
-          payload: '/provide_desired_role{"desired_role": "data_engineer"}'
+          payload: '/provide_desired_role{{"desired_role": "data_engineer"}}'
         - title: "Data Analyst"
-          payload: '/provide_desired_role{"desired_role": "data_analyst"}'
+          payload: '/provide_desired_role{{"desired_role": "data_analyst"}}'
         - title: "Project Manager"
-          payload: '/provide_desired_role{"desired_role": "project_manager"}'
+          payload: '/provide_desired_role{{"desired_role": "project_manager"}}'
         - title: "MLOps Engineer"
-          payload: '/provide_desired_role{"desired_role": "mlops_engineer"}'
+          payload: '/provide_desired_role{{"desired_role": "mlops_engineer"}}'
 
   utter_unknown_role_hint:
     - text: "Сейчас мы набираем на роли Data Scientist, Data Engineer, Data Analyst, Project Manager и MLOps Engineer. Если что-то из этого подходит — напишите, пожалуйста, какая позиция ближе."

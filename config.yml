@@ -23,10 +23,11 @@ pipeline:
 
 policies:
 - name: MemoizationPolicy
+  max_history: 10
 - name: TEDPolicy
   max_history: 10
   epochs: 100
 - name: RulePolicy
-  core_fallback_threshold: 0.4
+  core_fallback_threshold: 0.3
   core_fallback_action_name: "action_default_fallback"
   enable_fallback_prediction: true

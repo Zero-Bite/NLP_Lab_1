@@ -7,7 +7,6 @@ nlu:
       - Привет
       - Здравствуйте
       - Хай
-      - Начнём
       - Приветствую
       - Добрый день
       - Приветик
@@ -108,7 +107,6 @@ nlu:
   - intent: fallback
     examples: |
       - Я не понимаю
-      - Повторите вопрос
       - Что вы имеете в виду?
       - Не могу ответить
       - Не понял
@@ -116,10 +114,8 @@ nlu:
       - Скажите иначе
       - Не понимаю вопрос
       - Не уверен, что понял
-      - Можете повторить?
       - Не понял вас
       - Объясните по-другому
-      - Повторите, пожалуйста
       - Не понял фразу
       - Не могу интерпретировать
       - Не уверен, как ответить
@@ -127,6 +123,9 @@ nlu:
       - Не уловил суть
       - Непонятный вопрос
       - Уточните формулировку
+      - Затрудняюсь с ответом
+      - Трудно сформулировать ответ
+      - Не совсем понятен вопрос
 
   - intent: confirm_readiness
     examples: |
@@ -169,6 +168,12 @@ nlu:
       - Меня зовут [Евгения](candidate_name), но можно Женя
       - [Никита](candidate_name), если в именительном
       - От [Артёма](candidate_name), давайте продолжим
+      - [Гриша](candidate_name)
+      - [Саша](candidate_name)
+      - [Лёша](candidate_name)
+      - [Женя](candidate_name)
+      - [Катя](candidate_name)
+      - [Настя](candidate_name)
 
   - intent: provide_experience
     examples: |
@@ -192,6 +197,16 @@ nlu:
       - Порядка [2](experience_years) лет в данных
       - Почти [0.8](experience_years) года
       - Стаж [14](experience_years) лет
+      - [2](experience_years) года опыта
+      - [3](experience_years) года
+      - [1](experience_years) год
+      - [5](experience_years) лет
+      - [4](experience_years) года опыта
+      - [6](experience_years) лет опыта
+      - [2](experience_years) года в IT
+      - [3](experience_years) года в аналитике
+      - [1](experience_years) год в DS
+      - [0](experience_years) опыта нет
 
   - intent: provide_desired_role
     examples: |
@@ -207,8 +222,7 @@ nlu:
       - Хочу в команду как [data_analyst](desired_role)
       - Ближе роль [data_analyst](desired_role)
       - Целевая вакансия [data_analyst](desired_role)
-      - Рассматриваю [project_manager](desired_role)
-      - Ищу позицию [project_manager](desired_role)
+      - Рассматриваю вакансию [project_manager](desired_role)
       - Хочу быть [project_manager](desired_role)
       - Подхожу на [project_manager](desired_role)
       - Хотел бы [mlops_engineer](desired_role)
@@ -223,18 +237,18 @@ nlu:
       - Рассчитываю на [180000](salary_expectation)
       - [120000](salary_expectation) в месяц
       - Хотел бы получать [160000](salary_expectation)
-      - Для меня комфортно [150](salary_expectation)к
-      - Ориентир [220](salary_expectation)к
+      - Для меня комфортно [150к](salary_expectation)
+      - Ориентир [220к](salary_expectation)
       - От [120000](salary_expectation)
       - Около [180000](salary_expectation) тысяч
       - Хочу не меньше [170000](salary_expectation)
-      - Диапазон [190000](salary_expectation) - [210000](salary_expectation)
+      - Диапазон от [190000](salary_expectation) рублей
       - Было бы хорошо [140000](salary_expectation)
       - Ожидания на уровне [130000](salary_expectation)
       - Рассмотрю [250000](salary_expectation)
       - По рынку это [165000](salary_expectation)
-      - Можно ориентироваться на [155](salary_expectation)к
-      - От [210](salary_expectation)к до [230](salary_expectation)к
+      - Можно ориентироваться на [155к](salary_expectation)
+      - Диапазон около [220к](salary_expectation)
       - Желаемый уровень [175000](salary_expectation) рублей
       - В районе [145000](salary_expectation)
       - Примерно [205000](salary_expectation)
@@ -491,7 +505,6 @@ nlu:
       - Grafana для метрик
       - Evidently для мониторинга
       - Нет опыта с мониторингом
-      - Prometheus и Grafana
       - Следил за качеством модели после релиза
       - Настраивал алерты по latency и error rate
       - Использовал MLflow monitoring
@@ -566,11 +579,6 @@ nlu:
 
   - intent: provide_salary
     examples: |
-      - Ожидаю зарплату [150000](salary_expectation)
-      - Моя желаемая зарплата [200000](salary_expectation)
-      - Рассчитываю на [180000](salary_expectation)
-      - [120000](salary_expectation) в месяц
-      - Хотел бы получать [160000](salary_expectation)
       - Зарплата [140000](salary_expectation) устроит
       - Желаю [170000](salary_expectation)
       - Предпочтительно [200000](salary_expectation)
@@ -581,11 +589,16 @@ nlu:
       - Зарплата около [160](salary_expectation) тыс
       - Хотел бы [145000](salary_expectation)
       - Желаю [175000](salary_expectation)
-      - Ориентир [220](salary_expectation)к
+      - Ориентир [225к](salary_expectation)
       - От [130000](salary_expectation)
       - Около [195000](salary_expectation)
       - [210000](salary_expectation) до вычета
       - [165000](salary_expectation) рублей в месяц
+      - Зарплатные ожидания [185000](salary_expectation)
+      - Комфортная вилка от [135000](salary_expectation)
+      - Нижняя граница [125000](salary_expectation)
+      - Уровень вознаграждения [215000](salary_expectation)
+      - Минимум [148000](salary_expectation) на руки
 
   - intent: provide_skills
     examples: |
