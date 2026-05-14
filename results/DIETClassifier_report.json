@@ -3,21 +3,7 @@
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
-    "support": 32,
-    "confused_with": {}
-  },
-  "experience_years": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 30,
-    "confused_with": {}
-  },
-  "desired_role": {
-    "precision": 1.0,
-    "recall": 1.0,
-    "f1-score": 1.0,
-    "support": 39,
+    "support": 47,
     "confused_with": {}
   },
   "salary_expectation": {
@@ -27,23 +13,37 @@
     "support": 46,
     "confused_with": {}
   },
+  "desired_role": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 39,
+    "confused_with": {}
+  },
+  "experience_years": {
+    "precision": 1.0,
+    "recall": 1.0,
+    "f1-score": 1.0,
+    "support": 41,
+    "confused_with": {}
+  },
   "micro avg": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
-    "support": 147
+    "support": 173
   },
   "macro avg": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
-    "support": 147
+    "support": 173
   },
   "weighted avg": {
     "precision": 1.0,
     "recall": 1.0,
     "f1-score": 1.0,
-    "support": 147
+    "support": 173
   },
   "accuracy": 1.0
 }

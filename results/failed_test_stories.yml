@@ -17,16 +17,11 @@ stories:
   - intent: answer_pipeline_experience  # predicted: answer_interview_open: Писал ETL из Postgres и S3 в BigQuery через Airflow, batch и CDC-пайплайны
   - action: utter_confirm_receipt
   - action: action_route_to_role_interview
-- story: '[DE] positive - warehouse (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
-  steps:
-  - intent: answer_interview_open  # predicted: nlu_fallback: BigQuery — основной DWH, dbt для трансформаций и тестов качества
-  - action: utter_confirm_receipt
-  - action: action_route_to_role_interview
 - story: '[DS] positive - greeting and name (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
   steps:
   - intent: greet
   - action: action_greet
-  - intent: provide_name  # predicted: provide_name: Петров [Алексей](candidate_name) [Сергеевич](candidate_name)
+  - intent: provide_name  # predicted: provide_name: Петров [Алексей](candidate_name) Сергеевич
   - action: action_collect_name
 - story: '[DE] positive - tools (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
   steps:
@@ -35,7 +30,7 @@ stories:
   - action: action_route_to_role_interview
 - story: '[DE] positive - orchestration (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
   steps:
-  - intent: answer_interview_open  # predicted: nlu_fallback: Airflow с DAGами, retry-политиками и SLA-мониторингом
+  - intent: answer_interview_open  # predicted: answer_monitoring_experience: Airflow с DAGами, retry-политиками и SLA-мониторингом
   - action: utter_confirm_receipt
   - action: action_route_to_role_interview
 - story: '[DE] positive - salary (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
@@ -75,9 +70,19 @@ stories:
   - intent: provide_desired_role  # predicted: provide_desired_role: Хочу позицию [project_manager](desired_role)
   - action: utter_transition_to_role_questions  # predicted: action_default_fallback
   - action: action_route_to_role_interview
+- story: '[DS] positive - ml experience answer (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_ml_experience  # predicted: answer_interview_open: Строил модели классификации оттока и прогноза LTV в sklearn и CatBoost
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
 - story: '[PM] positive - delivery (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
   steps:
   - intent: answer_interview_open  # predicted: answer_interview_open: Вёл ML-платформу рекомендаций от POC до прода, релиз за [6](experience_years) месяцев
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[PM] positive - distributed team (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_interview_open  # predicted: answer_interview_open: Команда в [3](experience_years) часовых поясах, синхронизация через Jira и weekly standup
   - action: utter_confirm_receipt
   - action: action_route_to_role_interview
 - story: '[PM] positive - salary (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
@@ -107,11 +112,6 @@ stories:
   - intent: answer_monitoring_experience  # predicted: answer_interview_open: Да, Evidently для дрейфа данных, Grafana + Prometheus для инфраструктуры
   - action: utter_confirm_receipt
   - action: action_route_to_role_interview
-- story: '[MLOps] positive - model registry (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
-  steps:
-  - intent: answer_interview_open  # predicted: nlu_fallback: MLflow Model Registry: версионирование, staging/production стадии
-  - action: utter_confirm_receipt
-  - action: action_route_to_role_interview
 - story: '[MLOps] positive - serving (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
   steps:
   - intent: answer_interview_open  # predicted: provide_project_experience: Triton Inference Server для high-load, BentoML для прототипов
@@ -123,12 +123,12 @@ stories:
   - action: action_collect_salary
 - story: '[NEG] low experience - affirm and continue (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
   steps:
-  - intent: provide_experience  # predicted: provide_experience: Опыт [3](experience_years) месяца, был учебный проект
+  - intent: provide_experience  # predicted: provide_experience: Опыт [3](salary_expectation) месяца, был учебный проект
   - action: utter_confirm_receipt
   - action: action_say_utter_low_experience_warning  # predicted: action_say_utter_ask_role
-  - intent: affirm  # predicted: nlu_fallback: Да, делал pet-project на Kaggle
+  - intent: affirm  # predicted: provide_desired_role: Да, делал pet-project на Kaggle
   - action: utter_confirm_receipt
-  - action: action_say_utter_ask_role  # predicted: action_route_to_role_interview
+  - action: action_say_utter_ask_role
 - story: '[NEG] low experience - open answer and continue (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
   steps:
   - intent: provide_experience
@@ -136,12 +136,12 @@ stories:
   - action: action_say_utter_low_experience_warning  # predicted: action_say_utter_ask_role
   - intent: answer_interview_open  # predicted: answer_ml_experience: Стажировался в Сбере, работал с данными
   - action: utter_confirm_receipt
-  - action: action_say_utter_ask_role  # predicted: action_route_to_role_interview
+  - action: action_say_utter_ask_role
 - story: '[ERR] unclear answer - then retry (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
   steps:
   - intent: fallback  # predicted: ask_repeat: Не понял вопрос
   - action: action_handle_unclear_answer
-  - intent: answer_skill_python
+  - intent: answer_skill_python  # predicted: answer_sql_level: продвинутый
   - action: utter_confirm_receipt
   - action: action_route_to_role_interview
 - story: '[ERR] ask repeat - then answer (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
@@ -155,7 +155,7 @@ stories:
   steps:
   - intent: unsuitable
   - action: action_handle_unsuitable
-  - intent: answer_interview_open  # predicted: answer_pipeline_experience: Работал с Airflow и dbt
+  - intent: answer_interview_open  # predicted: answer_frameworks: Работал с Airflow и dbt
   - action: utter_confirm_receipt
   - action: action_route_to_role_interview
 - story: '[EDGE] confirm readiness before name (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'

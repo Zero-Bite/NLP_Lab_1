@@ -1,6 +1,12 @@
 version: "3.1"
 
 rules:
+  - rule: Greet user at any point
+    steps:
+      - intent: greet
+      - action: action_greet
+    wait_for_user_input: true
+
   - rule: Goodbye at any point
     steps:
       - intent: goodbye
@@ -561,6 +567,15 @@ rules:
       - action: action_route_to_role_interview
 
   # ─── Fallback / nlu_fallback во время интервью: treat как открытый ответ ───
+
+  - rule: DS interview - sql level intent treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: answer_sql_level
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
 
   - rule: DS interview - fallback treated as open answer
     condition:

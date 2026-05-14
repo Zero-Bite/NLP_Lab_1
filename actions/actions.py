@@ -1307,7 +1307,7 @@ class ActionGreet(Action):
     ) -> List[Dict[Text, Any]]:
         stage = tracker.get_slot("interview_stage")
         if stage and stage not in ("idle", None, "farewell", "end"):
-            return []
+            return [FollowupAction("action_listen")]
         events: List[Dict[Text, Any]] = []
         if stage in ("farewell", "end"):
             events.append(AllSlotsReset())
@@ -1315,6 +1315,7 @@ class ActionGreet(Action):
         events += [
             SlotSet("interview_stage", "greeting"),
             SlotSet("last_question_key", "utter_ask_name"),
+            FollowupAction("action_listen"),
         ]
         return events
 
@@ -1717,7 +1718,7 @@ class ActionRouteToRoleInterview(Action):
 
         # Не запускать маршрутизацию после завершения интервью
         if current_stage in ("farewell", "end", "assessment", "collect_salary"):
-            return []
+            return [FollowupAction("action_listen")]
 
         entering_interview = current_stage == "collect_role"
 
@@ -1861,15 +1862,17 @@ class ActionRouteToRoleInterview(Action):
                 pending["da_viz_tools"] = _extract_list_from_text(text_raw) or [text_raw]
 
         if intent == "answer_skill_python" or (
-            intent == "answer_interview_open" and last_key == "utter_ask_ds_python_level"
+            last_key == "utter_ask_ds_python_level"
+            and intent not in {"stop_interview", "goodbye", "out_of_scope", "ask_repeat"}
         ):
             level = _norm_python_level(text_lower)
-            if level is not None:
-                pending["ds_python_level"] = level
+            if level is None:
+                level = "intermediate"
+            pending["ds_python_level"] = level
             exp_years = tracker.get_slot("experience_years")
             if level == "beginner" and exp_years is not None and float(exp_years) < 1.0:
                 pending["ds_python_risk"] = True
-            elif level is not None:
+            else:
                 pending["ds_python_risk"] = False
 
         if intent == "answer_sql_level" or (
@@ -1955,6 +1958,7 @@ class ActionRouteToRoleInterview(Action):
 
         dispatcher.utter_message(response=next_q)
         events.append(SlotSet("last_question_key", next_q))
+        events.append(FollowupAction("action_listen"))
         return events
 
 
@@ -2240,7 +2244,7 @@ class ActionSaveCandidateData(Action):
                 import traceback
                 traceback.print_exc()
 
-        return [SlotSet("interview_stage", "end")]
+        return [SlotSet("interview_stage", "end"), FollowupAction("action_listen")]
 
 
 class ActionDefaultFallback(Action):
