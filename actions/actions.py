@@ -182,7 +182,8 @@ def _parse_salary_from_raw(raw: str) -> Optional[float]:
     m = re.search(r"(\d{4,})", raw)
     if m:
         return float(m.group(1))
-    m = re.search(r"(\d+(?:[.,]\d+)?)", raw)
+    # Last resort: standalone number not glued to letters (e.g. avoid INT8 → 8)
+    m = re.search(r"(?<![a-zA-Zа-яёА-ЯЁ])(\d+(?:[.,]\d+)?)(?![a-zA-Zа-яёА-ЯЁ])", raw)
     if m:
         val = float(m.group(1).replace(",", "."))
         if val < 1000:
@@ -1173,6 +1174,7 @@ def _next_question_response(gv: Any) -> Tuple[str, List[Dict[Text, Any]]]:
             return "utter_ask_mlops_gpu", events
 
     events.append(SlotSet("interview_stage", "collect_salary"))
+    events.append(SlotSet("awaiting_salary_input", True))
     return "utter_ask_salary", events
 
 
@@ -1638,10 +1640,15 @@ class ActionCollectSalary(Action):
         text = _latest_text(tracker)
         attempts = int(tracker.get_slot("salary_parse_attempts") or 0)
 
-        # Если вызвали без реального пользовательского ввода по зарплате
-        # (перенаправлен из fallback), просто ждём — не парсим и не зацикливаемся
-        last_key = tracker.get_slot("last_question_key") or ""
-        if last_key != "utter_ask_salary" and attempts == 0:
+        # Guard: if salary question was JUST asked in the same turn (rule
+        # chaining), action_route_to_role_interview sets awaiting_salary_input=True.
+        # The first call here clears the flag and exits — we must wait for the
+        # user's NEXT message before actually collecting salary.
+        if tracker.get_slot("awaiting_salary_input"):
+            return [SlotSet("awaiting_salary_input", False)]
+
+        stage = tracker.get_slot("interview_stage") or ""
+        if stage != "collect_salary":
             return []
 
         salary = tracker.get_slot("salary_expectation")
@@ -2044,7 +2051,7 @@ class ActionAssessCandidate(Action):
             SlotSet("consistency_warnings", warnings),
             SlotSet("is_suitable", is_suitable),
             SlotSet("unsuitable_reason", reason),
-            SlotSet("interview_stage", "not_suitable" if not is_suitable else "assessment"),
+            SlotSet("interview_stage", "farewell"),
         ]
 
         if is_suitable:

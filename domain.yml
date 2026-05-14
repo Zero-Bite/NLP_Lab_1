@@ -121,6 +121,12 @@ slots:
     mappings:
       - type: custom
 
+  awaiting_salary_input:
+    type: bool
+    initial_value: false
+    mappings:
+      - type: custom
+
   ds_python_risk:
     type: bool
     mappings:

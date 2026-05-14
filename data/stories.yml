@@ -434,6 +434,61 @@ stories:
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
+  # ─── Salary waiting (teaches TED that salary stage WAITS for user) ─────────
+
+  - story: salary - user provides salary after ds interview
+    steps:
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+      - intent: provide_salary
+      - action: action_collect_salary
+
+  - story: salary - user provides salary after de interview
+    steps:
+      - intent: answer_pipeline_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+      - intent: provide_salary
+      - action: action_collect_salary
+
+  - story: salary - user answers open after role interview
+    steps:
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+      - intent: answer_interview_open
+      - action: action_collect_salary
+
+  - story: salary - user provides salary standalone
+    steps:
+      - intent: provide_salary
+      - action: action_collect_salary
+
+  # ─── Post-interview end (teaches TED to wait after farewell) ─────────────
+
+  - story: interview ended - user says goodbye
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+      - action: action_save_candidate_data
+
+  - story: interview ended - user restarts with greeting
+    steps:
+      - intent: goodbye
+      - action: utter_goodbye
+      - action: action_save_candidate_data
+      - intent: greet
+      - action: action_greet
+
+  - story: interview stopped - user restarts
+    steps:
+      - intent: stop_interview
+      - action: utter_farewell_stopped
+      - action: action_save_candidate_data
+      - intent: greet
+      - action: action_greet
+
   # ─── Candidate doubts / unsuitable ───────────────────────────────────────
 
   - story: candidate thinks they are unsuitable
