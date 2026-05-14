@@ -18,6 +18,7 @@ intents:
   - provide_salary
   - provide_skills
   - provide_project_experience
+  - answer_interview_open
   - answer_skill_python
   - answer_ml_experience
   - answer_frameworks
@@ -82,6 +83,7 @@ slots:
       - greeting
       - collect_name
       - collect_experience
+      - collect_experience_low
       - collect_role
       - interview_ds
       - interview_de
@@ -131,6 +133,31 @@ slots:
     mappings:
       - type: custom
 
+  candidate_score:
+    type: float
+    mappings:
+      - type: custom
+  candidate_level:
+    type: text
+    mappings:
+      - type: custom
+  hire_decision:
+    type: text
+    mappings:
+      - type: custom
+  candidate_strengths:
+    type: list
+    mappings:
+      - type: custom
+  candidate_weaknesses:
+    type: list
+    mappings:
+      - type: custom
+  consistency_warnings:
+    type: list
+    mappings:
+      - type: custom
+
   out_of_scope_count:
     type: float
     initial_value: 0
@@ -157,6 +184,30 @@ slots:
     type: bool
     mappings:
       - type: custom
+  ds_task_types:
+    type: text
+    mappings:
+      - type: custom
+  ds_feature_engineering:
+    type: text
+    mappings:
+      - type: custom
+  ds_validation:
+    type: text
+    mappings:
+      - type: custom
+  ds_ab_testing:
+    type: text
+    mappings:
+      - type: custom
+  ds_llm_experience:
+    type: text
+    mappings:
+      - type: custom
+  ds_inference_opt:
+    type: text
+    mappings:
+      - type: custom
 
   de_pipeline_experience:
     type: text
@@ -178,6 +229,34 @@ slots:
       - advanced
     mappings:
       - type: custom
+  de_sql_optimization:
+    type: text
+    mappings:
+      - type: custom
+  de_data_volumes:
+    type: text
+    mappings:
+      - type: custom
+  de_batch_streaming:
+    type: text
+    mappings:
+      - type: custom
+  de_kafka_spark:
+    type: text
+    mappings:
+      - type: custom
+  de_warehouse:
+    type: text
+    mappings:
+      - type: custom
+  de_orchestration:
+    type: text
+    mappings:
+      - type: custom
+  de_monitoring:
+    type: text
+    mappings:
+      - type: custom
 
   da_viz_tools:
     type: list
@@ -192,6 +271,30 @@ slots:
     mappings:
       - type: custom
   da_business_domain:
+    type: text
+    mappings:
+      - type: custom
+  da_product_metrics:
+    type: text
+    mappings:
+      - type: custom
+  da_ab_tests:
+    type: text
+    mappings:
+      - type: custom
+  da_funnel_cohort:
+    type: text
+    mappings:
+      - type: custom
+  da_bi_dashboards:
+    type: text
+    mappings:
+      - type: custom
+  da_stakeholders:
+    type: text
+    mappings:
+      - type: custom
+  da_product_thinking:
     type: text
     mappings:
       - type: custom
@@ -213,6 +316,30 @@ slots:
       - good
     mappings:
       - type: custom
+  pm_risk_management:
+    type: text
+    mappings:
+      - type: custom
+  pm_budget:
+    type: text
+    mappings:
+      - type: custom
+  pm_conflict:
+    type: text
+    mappings:
+      - type: custom
+  pm_delivery:
+    type: text
+    mappings:
+      - type: custom
+  pm_distributed_team:
+    type: text
+    mappings:
+      - type: custom
+  pm_ai_ml_projects:
+    type: text
+    mappings:
+      - type: custom
 
   mlops_ci_cd:
     type: bool
@@ -224,6 +351,30 @@ slots:
       - type: custom
   mlops_monitoring:
     type: bool
+    mappings:
+      - type: custom
+  mlops_kubernetes:
+    type: text
+    mappings:
+      - type: custom
+  mlops_model_registry:
+    type: text
+    mappings:
+      - type: custom
+  mlops_docker:
+    type: text
+    mappings:
+      - type: custom
+  mlops_iac:
+    type: text
+    mappings:
+      - type: custom
+  mlops_serving:
+    type: text
+    mappings:
+      - type: custom
+  mlops_gpu:
+    type: text
     mappings:
       - type: custom
 
@@ -239,6 +390,18 @@ responses:
 
   utter_confirm_name:
     - text: "Приятно познакомиться, {candidate_name}!"
+
+  utter_name_acknowledged:
+    - text: "Приятно познакомиться, {candidate_name}!"
+
+  utter_experience_parse_error:
+    - text: "Не смог распознать число лет опыта. Напишите, пожалуйста, цифрой, например: 2 или 0.5."
+
+  utter_role_not_recognized:
+    - text: "Не уверен, что понял роль. Выберите из списка или напишите: Data Scientist, Data Engineer, Data Analyst, Project Manager, MLOps Engineer."
+
+  utter_role_confirmed:
+    - text: "Отлично, записал позицию: {role}."
 
   utter_ask_experience:
     - text: "Сколько лет у вас опыта в IT или сфере данных?"
@@ -279,22 +442,60 @@ responses:
     - text: "Какие ML-фреймворки использовали? Например, sklearn, PyTorch, TensorFlow, CatBoost."
   utter_ask_ds_production:
     - text: "Был ли опыт вывода ML-моделей в production?"
+  utter_ask_ds_task_types:
+    - text: "Какие типы ML-задач решали? (классификация, регрессия, NLP, CV и т.д.)"
+  utter_ask_ds_feature_engineering:
+    - text: "Работали ли с feature engineering? Приведите пример."
+  utter_ask_ds_validation:
+    - text: "Как валидировали модели? Какие метрики использовали?"
+  utter_ask_ds_ab_testing:
+    - text: "Есть ли опыт A/B тестирования?"
+  utter_ask_ds_llm:
+    - text: "Работали ли с LLM или генеративными моделями?"
+  utter_ask_ds_inference_opt:
+    - text: "Есть ли опыт оптимизации inference (latency, memory)?"
 
   utter_ask_de_pipeline:
     - text: "Опишите опыт с ETL/ELT пайплайнами."
+  utter_ask_de_data_volumes:
+    - text: "С какими объёмами данных работали? (GB/TB/PB)"
+  utter_ask_de_batch_streaming:
+    - text: "Работали ли с batch и/или streaming обработкой?"
+  utter_ask_de_kafka_spark:
+    - text: "Есть ли опыт Kafka или Spark?"
+  utter_ask_de_warehouse:
+    - text: "Работали ли с Data Warehouse (Snowflake, BigQuery, Redshift и т.д.)?"
+  utter_ask_de_sql_optimization:
+    - text: "Оптимизировали ли сложные SQL-запросы? Опыт оконных функций?"
   utter_ask_de_tools:
     - text: "Какие инструменты использовали? Например, Airflow, Spark, dbt, Kafka."
   utter_ask_de_cloud:
     - text: "Есть ли опыт с облачными платформами — AWS, GCP, Azure, Yandex Cloud?"
   utter_ask_de_sql:
     - text: "Как оцените свой уровень SQL?"
+  utter_ask_de_orchestration:
+    - text: "Какие оркестраторы использовали (Airflow, Prefect, Dagster)?"
+  utter_ask_de_monitoring:
+    - text: "Как обеспечивали мониторинг качества данных?"
 
   utter_ask_da_domain:
     - text: "В каких предметных областях работали аналитиком?"
+  utter_ask_da_product_metrics:
+    - text: "Строили ли продуктовые метрики? Какие?"
+  utter_ask_da_ab_tests:
+    - text: "Есть ли опыт A/B тестирования или статистических тестов?"
+  utter_ask_da_funnel_cohort:
+    - text: "Работали ли с funnel или cohort analysis?"
   utter_ask_da_viz:
     - text: "Какие инструменты визуализации используете? Например, Tableau, Power BI, Plotly."
   utter_ask_da_sql:
     - text: "Оцените свой уровень SQL: базовый, средний или продвинутый?"
+  utter_ask_da_bi:
+    - text: "Какие BI-инструменты используете? Строили ли дашборды для stakeholders?"
+  utter_ask_da_stakeholders:
+    - text: "Как взаимодействовали со стейкхолдерами? Переводили бизнес-задачу в аналитическую?"
+  utter_ask_da_product_thinking:
+    - text: "Приведите пример, когда аналитика помогла принять продуктовое решение."
 
   utter_ask_pm_team_size:
     - text: "Какой максимальный размер команды вы координировали?"
@@ -302,6 +503,18 @@ responses:
     - text: "Какие методологии применяли? Scrum, Kanban, Waterfall или гибрид?"
   utter_ask_pm_ml_understanding:
     - text: "Как оцените своё понимание ML-проектов и их специфики?"
+  utter_ask_pm_risk_management:
+    - text: "Как управляли рисками на проектах?"
+  utter_ask_pm_budget:
+    - text: "Был ли у вас budget ownership? Каков был бюджет?"
+  utter_ask_pm_conflict:
+    - text: "Приведите пример разрешения конфликта в команде."
+  utter_ask_pm_delivery:
+    - text: "Расскажите о проекте, за delivery которого вы несли полную ответственность."
+  utter_ask_pm_distributed_team:
+    - text: "Работали ли с распределёнными или кросс-функциональными командами?"
+  utter_ask_pm_ai_ml_projects:
+    - text: "Есть ли опыт управления AI/ML проектами?"
 
   utter_ask_mlops_cicd:
     - text: "Есть ли опыт CI/CD для ML-проектов?"
@@ -309,6 +522,18 @@ responses:
     - text: "Какие MLOps-инструменты знаете? Например, MLflow, Kubeflow, Docker, Kubernetes."
   utter_ask_mlops_monitoring:
     - text: "Есть ли опыт мониторинга моделей — дрейф данных, метрики качества?"
+  utter_ask_mlops_kubernetes:
+    - text: "Есть ли опыт работы с Kubernetes?"
+  utter_ask_mlops_model_registry:
+    - text: "Работали ли с model registry (MLflow, DVC, Neptune)?"
+  utter_ask_mlops_docker:
+    - text: "Используете ли Docker в ML-пайплайнах?"
+  utter_ask_mlops_iac:
+    - text: "Есть ли опыт IaC (Terraform, Pulumi)?"
+  utter_ask_mlops_serving:
+    - text: "Как организовывали ML serving (Triton, TorchServe, BentoML и т.д.)?"
+  utter_ask_mlops_gpu:
+    - text: "Есть ли опыт работы с GPU-инфраструктурой?"
 
   utter_ask_salary:
     - text: "Какой уровень вознаграждения вас интересует (₽/мес, до вычета налогов)?"
@@ -347,26 +572,59 @@ responses:
 
 actions:
   - action_greet
+  - action_collect_name
+  - action_stop_interview
   - action_say_utter_ask_experience
   - action_say_utter_ask_role
   - action_say_utter_low_experience_warning
   - action_say_utter_ask_ds_ml_experience
+  - action_say_utter_ask_ds_task_types
+  - action_say_utter_ask_ds_feature_engineering
+  - action_say_utter_ask_ds_validation
+  - action_say_utter_ask_ds_ab_testing
+  - action_say_utter_ask_ds_llm
+  - action_say_utter_ask_ds_inference_opt
   - action_say_utter_ask_ds_python_level
   - action_say_utter_ask_ds_frameworks
   - action_say_utter_ask_ds_production
   - action_say_utter_ask_de_pipeline
+  - action_say_utter_ask_de_data_volumes
+  - action_say_utter_ask_de_batch_streaming
+  - action_say_utter_ask_de_kafka_spark
+  - action_say_utter_ask_de_warehouse
   - action_say_utter_ask_de_tools
   - action_say_utter_ask_de_cloud
   - action_say_utter_ask_de_sql
+  - action_say_utter_ask_de_sql_optimization
+  - action_say_utter_ask_de_orchestration
+  - action_say_utter_ask_de_monitoring
   - action_say_utter_ask_da_domain
+  - action_say_utter_ask_da_product_metrics
+  - action_say_utter_ask_da_ab_tests
+  - action_say_utter_ask_da_funnel_cohort
   - action_say_utter_ask_da_viz
   - action_say_utter_ask_da_sql
+  - action_say_utter_ask_da_bi
+  - action_say_utter_ask_da_stakeholders
+  - action_say_utter_ask_da_product_thinking
   - action_say_utter_ask_pm_team_size
   - action_say_utter_ask_pm_methodology
   - action_say_utter_ask_pm_ml_understanding
+  - action_say_utter_ask_pm_risk_management
+  - action_say_utter_ask_pm_budget
+  - action_say_utter_ask_pm_conflict
+  - action_say_utter_ask_pm_delivery
+  - action_say_utter_ask_pm_distributed_team
+  - action_say_utter_ask_pm_ai_ml_projects
   - action_say_utter_ask_mlops_cicd
   - action_say_utter_ask_mlops_tools
   - action_say_utter_ask_mlops_monitoring
+  - action_say_utter_ask_mlops_kubernetes
+  - action_say_utter_ask_mlops_model_registry
+  - action_say_utter_ask_mlops_docker
+  - action_say_utter_ask_mlops_iac
+  - action_say_utter_ask_mlops_serving
+  - action_say_utter_ask_mlops_gpu
   - action_route_to_role_interview
   - action_assess_candidate
   - action_handle_out_of_scope

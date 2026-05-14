@@ -60,6 +60,36 @@ rules:
       - action: action_say_utter_ask_role
     wait_for_user_input: true
 
+  - rule: After low experience warning continue to role
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_experience_low
+    steps:
+      - intent: provide_experience
+      - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
+    wait_for_user_input: true
+
+  - rule: Low experience follow-up affirm
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_experience_low
+    steps:
+      - intent: affirm
+      - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
+    wait_for_user_input: true
+
+  - rule: Low experience follow-up open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_experience_low
+    steps:
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
+    wait_for_user_input: true
+
   - rule: Provide role then transition
     condition:
       - slot_was_set:
@@ -89,12 +119,129 @@ rules:
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
+  - rule: DS interview project or ML experience
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: provide_project_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DS interview open text answers
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DS interview frameworks
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: answer_frameworks
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DS interview python level
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: answer_skill_python
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DS interview production
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: answer_production_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DS interview affirm or deny
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: affirm
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DS interview deny
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: deny
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
   - rule: Route role interview answer de
     condition:
       - slot_was_set:
           - interview_stage: interview_de
     steps:
       - intent: answer_pipeline_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DE interview open text answers
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DE interview SQL level
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: answer_sql_level
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DE interview cloud
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: answer_cloud_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DE interview provide skills
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: provide_skills
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DE interview affirm deny
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: affirm
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DE interview deny
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: deny
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
@@ -134,6 +281,24 @@ rules:
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
+  - rule: DA interview open text answers
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DA interview deny
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: deny
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
   - rule: Route role interview answer pm team size
     condition:
       - slot_was_set:
@@ -161,12 +326,93 @@ rules:
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
+  - rule: PM interview open text answers
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: PM interview provide skills
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: provide_skills
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: PM interview affirm deny
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: affirm
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: PM interview deny
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: deny
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
   - rule: Route role interview answer mlops
     condition:
       - slot_was_set:
           - interview_stage: interview_mlops
     steps:
       - intent: answer_cicd_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: MLOps interview monitoring
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_mlops
+    steps:
+      - intent: answer_monitoring_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: MLOps interview open text answers
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_mlops
+    steps:
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: MLOps interview provide skills
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_mlops
+    steps:
+      - intent: provide_skills
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: MLOps interview affirm deny
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_mlops
+    steps:
+      - intent: affirm
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: MLOps interview deny
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_mlops
+    steps:
+      - intent: deny
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 

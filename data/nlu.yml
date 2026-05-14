@@ -235,6 +235,21 @@ nlu:
       - Выбираю роль [mlops_engineer](desired_role)
       - Интересует [mlops_engineer](desired_role) в вашей команде
       - Мне нужна вакансия [mlops_engineer](desired_role)
+      - Хочу в Data Scientist
+      - Рассматриваю Data Engineer
+      - Мне ближе аналитик данных
+      - Ищу позицию Project Manager
+      - Целюсь в MLOps
+      - Хочу работать дата-сайентистом
+      - Меня интересует роль DE
+      - Подхожу на DA
+      - Хочу в проджект на ML-проект
+      - Роль mlops engineer в приоритете
+      - Data Science меня привлекает больше всего
+      - Хочу строить пайплайны как инженер данных
+      - Аналитика продуктовых метрик — мой фокус
+      - Управление AI-проектами как PM
+      - Инфраструктура ML и деплой — про MLOps
 
   - intent: provide_salary_expectation
     examples: |
@@ -651,6 +666,54 @@ nlu:
       - NLP: transformers, spaCy
       - MLOps: ArgoCD, Seldon
       - Визуализация: Plotly, Seaborn
+
+  - intent: answer_interview_open
+    examples: |
+      - Классификация оттока, регрессия цены, немного NLP для тикетов
+      - В основном classification и ranking, CV почти не трогал
+      - Да, делал feature engineering: лаги, rolling-агрегаты, таргет-энкодинг
+      - Кросс-валидация, смотрел на ROC-AUC и precision@k
+      - A/B делали на сплите аудитории, проверяли uplift
+      - С LLM работал: RAG для внутренней базы знаний
+      - Инференс ускоряли квантизацией и батчингом на GPU
+      - Терабайты в S3, batch в Airflow, стриминг через Kafka
+      - Spark для тяжёлых джобов, Kafka для событий
+      - В BigQuery строили витрины, dbt для трансформаций
+      - SQL оптимизировал: партиции, индексы, оконные функции
+      - Оркестрация в Airflow, мониторинг через Great Expectations
+      - Продуктовые метрики: retention, LTV, конверсия воронки
+      - Когортный retention считали в SQL, воронку onboarding в BI
+      - Дашборды в Power BI для продукта и маркетинга
+      - Со стейкхолдерами синкались еженедельно, формализовали KPI
+      - Аналитика показала узкое место в онбординге — сдвинули фичу в roadmap
+      - Риски вели в risk register, эскалации по матрице RACI
+      - Бюджет около 15 млн рублей в год, следил за burn
+      - Конфликт DS и бизнеса сняли через воркшоп по метрикам
+      - За delivery отвечал end-to-end, релизы каждые две недели
+      - Команда в трёх часовых поясах, синхронизация через Jira
+      - Вёл AI-проект рекомендаций от POC до продакшена
+      - Kubernetes для деплоя моделей, Helm charts для окружений
+      - Model registry в MLflow, версии и промоушен моделей
+      - Docker для training и serving, образы в registry
+      - Terraform поднимал инфраструктуру в AWS
+      - Serving через Triton, SLO по latency
+      - GPU на p3 для обучения, autoscaling по очереди джобов
+      - Делал ETL из Postgres в S3, затем Spark job
+      - Оптимизировал join с CTE и window functions
+      - Мониторили дрейф фичей в Grafana + алерты в Slack
+      - Писал DAGи на Airflow с retry и SLA
+      - В прод выкатили через Docker и REST API за два спринта
+      - Метрики качества после релиза смотрели в дашборде
+      - Проводили статтесты для A/B, считали MDE заранее
+      - Funnel analysis показал просадку на шаге оплаты
+      - BI: Tableau для C-level, детализация в SQL
+      - Управлял распределённой командой из 12 человек
+      - Budget ownership был, контролировал capex и opex
+      - Настроил CI/CD в GitHub Actions для обучения и деплоя
+      - Drift detection через Evidently и алерты
+      - Опыт с Kubeflow pipelines и артефактами в S3
+      - Feature store на Feast, онлайн-фичи для рекомендаций
+      - Писал inference на FastAPI, нагрузочное тестирование в k6
 
   - intent: provide_project_experience
     examples: |
