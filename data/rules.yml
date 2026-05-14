@@ -44,6 +44,22 @@ rules:
       - intent: provide_name
       - action: action_collect_name
 
+  - rule: Fallback in greeting phase - treat as name
+    condition:
+      - slot_was_set:
+          - interview_stage: greeting
+    steps:
+      - intent: fallback
+      - action: action_collect_name
+
+  - rule: Answer interview open in greeting phase - treat as name
+    condition:
+      - slot_was_set:
+          - interview_stage: greeting
+    steps:
+      - intent: answer_interview_open
+      - action: action_collect_name
+
   - rule: Candidate doubts selection outcome
     steps:
       - intent: unsuitable
@@ -532,6 +548,143 @@ rules:
     steps:
       - intent: no_experience
       - action: action_route_to_role_interview
+
+  # ─── answer_skill_python во время DA-интервью (частая ошибка NLU для SQL-ответов) ───
+
+  - rule: DA interview - python skill intent treated as generic answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: answer_skill_python
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  # ─── Fallback / nlu_fallback во время интервью: treat как открытый ответ ───
+
+  - rule: DS interview - fallback treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: fallback
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DS interview - nlu_fallback treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: nlu_fallback
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DE interview - fallback treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: fallback
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DE interview - nlu_fallback treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: nlu_fallback
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DA interview - fallback treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: fallback
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DA interview - nlu_fallback treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: nlu_fallback
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: PM interview - fallback treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: fallback
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: PM interview - nlu_fallback treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: nlu_fallback
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: MLOps interview - fallback treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_mlops
+    steps:
+      - intent: fallback
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: MLOps interview - nlu_fallback treated as open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_mlops
+    steps:
+      - intent: nlu_fallback
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  # ─── collect_experience: принимать открытые ответы про опыт ────────────────
+
+  - rule: Collect experience - open text answer
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_experience
+    steps:
+      - intent: answer_interview_open
+      - action: action_collect_experience
+
+  - rule: Collect experience - fallback (описательный ответ)
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_experience
+    steps:
+      - intent: fallback
+      - action: action_collect_experience
+
+  - rule: Collect experience - nlu_fallback
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_experience
+    steps:
+      - intent: nlu_fallback
+      - action: action_collect_experience
+
+  - rule: nlu_fallback in greeting phase - treat as name
+    condition:
+      - slot_was_set:
+          - interview_stage: greeting
+    steps:
+      - intent: nlu_fallback
+      - action: action_collect_name
 
   # ─── Catch-all: provide_salary мисклассифицированный во время интервью ─────
   # Когда NLU путает числовой ответ на вопрос интервью с зарплатой

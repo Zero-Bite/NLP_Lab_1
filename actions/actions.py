@@ -1372,10 +1372,7 @@ class ActionCollectName(Action):
         else:
             first_name = words[0] if words else name
 
-        dispatcher.utter_message(
-            response="utter_name_acknowledged",
-            **{"candidate_first_name": first_name},
-        )
+        dispatcher.utter_message(text=f"Приятно познакомиться, {first_name}!")
         dispatcher.utter_message(response="utter_ask_experience")
         return [
             SlotSet("candidate_name", name),
@@ -1717,6 +1714,11 @@ class ActionRouteToRoleInterview(Action):
             return [SlotSet("last_question_key", "utter_ask_role")]
 
         current_stage = tracker.get_slot("interview_stage")
+
+        # Не запускать маршрутизацию после завершения интервью
+        if current_stage in ("farewell", "end", "assessment", "collect_salary"):
+            return []
+
         entering_interview = current_stage == "collect_role"
 
         pending: Dict[str, Any] = {}
@@ -1854,10 +1856,9 @@ class ActionRouteToRoleInterview(Action):
             if role == "mlops_engineer":
                 pending["mlops_tools"] = _extract_list_from_text(text_raw)
 
-        if intent == "answer_viz_tools" or (
-            intent in {"provide_skills", "answer_interview_open"} and last_key == "utter_ask_da_viz"
-        ):
-            pending["da_viz_tools"] = _extract_list_from_text(text_raw)
+        if intent == "answer_viz_tools" or last_key == "utter_ask_da_viz":
+            if intent not in {"stop_interview", "goodbye", "out_of_scope", "ask_repeat"}:
+                pending["da_viz_tools"] = _extract_list_from_text(text_raw) or [text_raw]
 
         if intent == "answer_skill_python" or (
             intent == "answer_interview_open" and last_key == "utter_ask_ds_python_level"
@@ -1873,7 +1874,7 @@ class ActionRouteToRoleInterview(Action):
 
         if intent == "answer_sql_level" or (
             last_key in {"utter_ask_da_sql", "utter_ask_de_sql"}
-            and intent in {"affirm", "deny", "provide_skills", "answer_sql_level", "answer_interview_open"}
+            and intent not in {"stop_interview", "goodbye", "out_of_scope", "ask_repeat", "greet", "confirm_readiness"}
         ):
             if role == "data_engineer":
                 pending["de_sql_level"] = _norm_sql_level(text_lower) or "intermediate"
@@ -2063,10 +2064,19 @@ class ActionAssessCandidate(Action):
             SlotSet("interview_stage", "farewell"),
         ]
 
+        first_name = tracker.get_slot("candidate_first_name") or name.split()[0]
         if is_suitable:
-            dispatcher.utter_message(response="utter_farewell_suitable")
+            dispatcher.utter_message(
+                text=f"Спасибо, {first_name}. На основе нашего разговора ваш профиль "
+                     f"соответствует позиции {role_label}. Наш специалист свяжется с вами "
+                     f"в течение двух рабочих дней."
+            )
         else:
-            dispatcher.utter_message(response="utter_farewell_not_suitable")
+            dispatcher.utter_message(
+                text=f"Спасибо за участие, {first_name}. К сожалению, на данный момент "
+                     f"ваш профиль не совпадает с нашими открытыми позициями. Мы сохраним "
+                     f"данные и свяжемся при появлении подходящей вакансии."
+            )
 
         events.append(FollowupAction("action_save_candidate_data"))
         return events

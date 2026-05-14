@@ -180,6 +180,21 @@ nlu:
       - [Максим](candidate_name)
       - [Александр](candidate_name)
       - [Алексей](candidate_name)
+      - Иванов [Алексей](candidate_name) Петрович
+      - Сидорова [Мария](candidate_name) Ивановна
+      - Гончаров [Григорий](candidate_name) Евгеньевич
+      - Растяпин [Даниил](candidate_name) Сергеевич
+      - Маркушин [Сергей](candidate_name) Вячеславович
+      - Кириенко [Захар](candidate_name) Антонович
+      - Кумар [Антон](candidate_name) Свагович
+      - Петров [Николай](candidate_name) Игоревич
+      - Козлова [Анастасия](candidate_name) Дмитриевна
+      - Смирнов [Павел](candidate_name) Александрович
+      - Фомин [Игорь](candidate_name) Васильевич
+      - Захарова [Елена](candidate_name) Сергеевна
+      - Воронов [Артём](candidate_name) Олегович
+      - Белова [Виктория](candidate_name) Андреевна
+      - Новиков [Константин](candidate_name) Михайлович
 
   - intent: provide_experience
     examples: |
@@ -213,6 +228,16 @@ nlu:
       - [3](experience_years) года в аналитике
       - [1](experience_years) год в DS
       - [0](experience_years) опыта нет
+      - В вузе изучал аналитику и стажировался [1](experience_years) год в компании
+      - Учился в университете, стажировался [1](experience_years) год в озоне
+      - Полгода стажировки и [0.5](experience_years) года пет-проектов
+      - У меня [0.5](experience_years) года опыта, в основном учебные проекты
+      - Работал [1](experience_years) год аналитиком, до этого учёба
+      - Стажировался [1](experience_years) год в вайлдберис
+      - Около [2](experience_years) лет, включая стажировки и учёбу
+      - У меня [3](experience_years) года, из них [1](experience_years) год стажировки
+      - Из них [2](experience_years) года коммерческий опыт плюс пет-проекты
+      - Учёба плюс [1](experience_years) год стажировки
 
   - intent: provide_desired_role
     examples: |
@@ -295,21 +320,20 @@ nlu:
       - Python: intermediate
       - Python advanced, много практики
       - Оценю Python как продвинутый
-      - средний
-      - начальный
-      - продвинутый
-      - средний уровень
-      - начальный уровень
-      - продвинутый уровень
-      - уровень средний
-      - уровень начальный
-      - уровень продвинутый
       - intermediate
       - beginner
       - advanced
-      - начинающий
-      - средненький
-      - хороший уровень
+      - начинающий Python
+      - средненький Python
+      - хороший уровень Python
+      - средний Python
+      - начальный Python
+      - продвинутый Python
+      - Python средний
+      - Python начальный
+      - Python продвинутый
+      - Python на среднем уровне
+      - Python на продвинутом уровне
 
   - intent: answer_ml_experience
     examples: |
@@ -443,6 +467,21 @@ nlu:
       - Продвинутый, умею тюнить
       - На хорошем среднем уровне
       - Уверенный SQL advanced
+      - Продвинутый
+      - Средний
+      - Базовый
+      - Продвинутый уровень
+      - Средний уровень
+      - Базовый уровень
+      - Уровень продвинутый
+      - Уровень средний
+      - Уровень базовый
+      - SQL продвинутый
+      - SQL средний
+      - SQL базовый
+      - advanced SQL
+      - intermediate SQL
+      - beginner SQL
 
   - intent: answer_viz_tools
     examples: |

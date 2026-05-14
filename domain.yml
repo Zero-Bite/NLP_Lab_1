@@ -577,6 +577,7 @@ responses:
 actions:
   - action_greet
   - action_collect_name
+  - action_collect_experience
   - action_stop_interview
   - action_say_utter_ask_experience
   - action_say_utter_ask_role
