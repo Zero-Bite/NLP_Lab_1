@@ -1,0 +1,158 @@
+version: "3.1"
+stories:
+- story: '[DS] positive - salary (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_salary  # predicted: provide_salary: Ожидаю [250000](salary_expectation) рублей в месяц
+  - action: action_collect_salary
+- story: '[DE] positive - experience and role selection (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_experience  # predicted: provide_experience: [5](experience_years) лет в Data Engineering
+  - action: utter_confirm_receipt
+  - action: action_say_utter_ask_role
+  - intent: provide_desired_role  # predicted: provide_desired_role: Интересует [data_engineer](desired_role)
+  - action: utter_transition_to_role_questions  # predicted: action_default_fallback
+  - action: action_route_to_role_interview
+- story: '[DE] positive - pipeline experience (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_pipeline_experience  # predicted: answer_interview_open: Писал ETL из Postgres и S3 в BigQuery через Airflow, batch и CDC-пайплайны
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[DS] positive - greeting and name (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: greet
+  - action: action_greet
+  - intent: provide_name  # predicted: provide_name: Петров [Алексей](candidate_name) [Сергеевич](candidate_name)
+  - action: action_collect_name
+- story: '[DE] positive - tools (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_tools  # predicted: provide_skills: Airflow, dbt, Kafka, Spark, Debezium, Great Expectations
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[DE] positive - salary (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_salary  # predicted: provide_salary: Рассчитываю на [280000](salary_expectation) рублей
+  - action: action_collect_salary
+- story: '[DA] positive - experience and role selection (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_experience  # predicted: provide_experience: [3](experience_years) года работаю аналитиком
+  - action: utter_confirm_receipt
+  - action: action_say_utter_ask_role
+  - intent: provide_desired_role  # predicted: provide_desired_role: Меня интересует [data_analyst](desired_role)
+  - action: utter_transition_to_role_questions  # predicted: action_default_fallback
+  - action: action_route_to_role_interview
+- story: '[DS] positive - experience and role selection (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_experience  # predicted: provide_experience: У меня [4](experience_years) года опыта в ML
+  - action: utter_confirm_receipt
+  - action: action_say_utter_ask_role
+  - intent: provide_desired_role  # predicted: provide_desired_role: Хочу позицию [data_scientist](desired_role)
+  - action: utter_transition_to_role_questions  # predicted: action_default_fallback
+  - action: action_route_to_role_interview
+- story: '[DA] positive - viz tools (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_viz_tools  # predicted: answer_interview_open: Power BI для C-level, Plotly Dash для продукта, иногда Tableau
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[DA] positive - salary (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_salary  # predicted: provide_salary: Хочу [180000](salary_expectation) рублей
+  - action: action_collect_salary
+- story: '[PM] positive - experience and role selection (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_experience  # predicted: provide_experience: [6](experience_years) лет в управлении проектами
+  - action: utter_confirm_receipt
+  - action: action_say_utter_ask_role
+  - intent: provide_desired_role  # predicted: provide_desired_role: Хочу позицию [project_manager](desired_role)
+  - action: utter_transition_to_role_questions  # predicted: action_default_fallback
+  - action: action_route_to_role_interview
+- story: '[DS] positive - ml experience answer (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_ml_experience  # predicted: answer_interview_open: Строил модели классификации оттока и прогноза LTV в sklearn и CatBoost
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[PM] positive - delivery (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_interview_open  # predicted: answer_interview_open: Вёл ML-платформу рекомендаций от POC до прода, релиз за [6](experience_years) месяцев
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[PM] positive - salary (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_salary  # predicted: provide_salary: Ожидаю [300000](salary_expectation) рублей в месяц
+  - action: action_collect_salary
+- story: '[MLOps] positive - experience and role selection (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_experience  # predicted: provide_experience: [4](experience_years) года в DevOps и MLOps
+  - action: utter_confirm_receipt
+  - action: action_say_utter_ask_role
+  - intent: provide_desired_role  # predicted: provide_desired_role: Интересует [mlops_engineer](desired_role)
+  - action: utter_transition_to_role_questions  # predicted: action_default_fallback
+  - action: action_route_to_role_interview
+- story: '[MLOps] positive - cicd experience (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_cicd_experience  # predicted: answer_interview_open: Да, GitHub Actions для обучения и деплоя, GitLab CI для staging
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[MLOps] positive - tools (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_tools  # predicted: provide_skills: MLflow, Kubeflow, Docker, Kubernetes, Helm, Argo Workflows
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[MLOps] positive - monitoring experience (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_monitoring_experience  # predicted: answer_interview_open: Да, Evidently для дрейфа данных, Grafana + Prometheus для инфраструктуры
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[MLOps] positive - salary (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_salary  # predicted: provide_salary: Рассчитываю на [320000](salary_expectation) рублей
+  - action: action_collect_salary
+- story: '[NEG] low experience - affirm and continue (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_experience  # predicted: provide_experience: Опыт [3](experience_years) месяца, был учебный проект
+  - action: utter_confirm_receipt
+  - action: action_say_utter_low_experience_warning  # predicted: action_say_utter_ask_role
+  - intent: affirm  # predicted: provide_desired_role: Да, делал pet-project на Kaggle
+  - action: utter_confirm_receipt
+  - action: action_say_utter_ask_role
+- story: '[NEG] low experience - open answer and continue (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: provide_experience
+  - action: utter_confirm_receipt
+  - action: action_say_utter_low_experience_warning  # predicted: action_say_utter_ask_role
+  - intent: answer_interview_open  # predicted: answer_ml_experience: Стажировался в Сбере, работал с данными
+  - action: utter_confirm_receipt
+  - action: action_say_utter_ask_role  # predicted: action_route_to_role_interview
+- story: '[ERR] unclear answer - then retry (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: fallback  # predicted: ask_repeat: Не понял вопрос
+  - action: action_handle_unclear_answer
+  - intent: answer_skill_python
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[ERR] ask repeat - then answer (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: ask_repeat
+  - action: action_ask_repeat
+  - intent: answer_frameworks  # predicted: provide_skills: sklearn, PyTorch, CatBoost
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[ERR] candidate thinks unsuitable then continues (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: unsuitable
+  - action: action_handle_unsuitable
+  - intent: answer_interview_open  # predicted: answer_pipeline_experience: Работал с Airflow и dbt
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview
+- story: '[EDGE] confirm readiness before name (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: greet
+  - action: action_greet
+  - intent: confirm_readiness
+  - action: action_confirm_readiness
+  - intent: provide_name  # predicted: provide_name: Сидоров [Дмитрий](candidate_name) Иванович
+  - action: action_collect_name
+- story: '[DS] positive - frameworks (/Users/anastasia/Desktop/NLP_lab_1/NLP_Lab_1/NLP_Lab_1/tests/test_stories.yml)'
+  steps:
+  - intent: answer_frameworks  # predicted: provide_skills: sklearn, CatBoost, PyTorch, pandas, numpy
+  - action: utter_confirm_receipt
+  - action: action_route_to_role_interview

@@ -8,7 +8,7 @@ stories:
 
   # ─── Data Scientist — полный позитивный путь ──────────────────────────────
 
-  - story: [DS] positive - greeting and name
+  - story: '[DS] positive - greeting and name'
     steps:
       - user: "Привет"
         intent: greet
@@ -17,7 +17,7 @@ stories:
         intent: provide_name
       - action: action_collect_name
 
-  - story: [DS] positive - experience and role selection
+  - story: '[DS] positive - experience and role selection'
     steps:
       - user: "У меня 4 года опыта в ML"
         intent: provide_experience
@@ -28,77 +28,77 @@ stories:
       - action: utter_transition_to_role_questions
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - ml experience answer
+  - story: '[DS] positive - ml experience answer'
     steps:
       - user: "Строил модели классификации оттока и прогноза LTV в sklearn и CatBoost"
         intent: answer_ml_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - task types
+  - story: '[DS] positive - task types'
     steps:
       - user: "Классификация, регрессия, немного NLP для саппорт-тикетов"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - feature engineering
+  - story: '[DS] positive - feature engineering'
     steps:
       - user: "Да, создавал лаговые признаки и rolling-агрегаты для временных рядов"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - validation metrics
+  - story: '[DS] positive - validation metrics'
     steps:
       - user: "ROC-AUC и F1 для классификации, MAE и RMSE для регрессии, кросс-валидация"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - python level
+  - story: '[DS] positive - python level'
     steps:
       - user: "Продвинутый уровень Python"
         intent: answer_skill_python
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - frameworks
+  - story: '[DS] positive - frameworks'
     steps:
       - user: "sklearn, CatBoost, PyTorch, pandas, numpy"
         intent: answer_frameworks
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - production experience
+  - story: '[DS] positive - production experience'
     steps:
       - user: "Да, выкатывали модели через Docker и REST API на FastAPI"
         intent: answer_production_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - ab testing
+  - story: '[DS] positive - ab testing'
     steps:
       - user: "Да, проводил A/B тесты с bootstrap и t-test, считал sample size заранее"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - llm experience
+  - story: '[DS] positive - llm experience'
     steps:
       - user: "Работал с OpenAI API и делал RAG-систему для внутренней базы знаний"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - inference optimization
+  - story: '[DS] positive - inference optimization'
     steps:
       - user: "Квантизация INT8, батчинг запросов, кэширование эмбеддингов"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DS] positive - salary
+  - story: '[DS] positive - salary'
     steps:
       - user: "Ожидаю 250000 рублей в месяц"
         intent: provide_salary
@@ -106,7 +106,7 @@ stories:
 
   # ─── Data Engineer — полный позитивный путь ───────────────────────────────
 
-  - story: [DE] positive - experience and role selection
+  - story: '[DE] positive - experience and role selection'
     steps:
       - user: "5 лет в Data Engineering"
         intent: provide_experience
@@ -117,84 +117,84 @@ stories:
       - action: utter_transition_to_role_questions
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - pipeline experience
+  - story: '[DE] positive - pipeline experience'
     steps:
       - user: "Писал ETL из Postgres и S3 в BigQuery через Airflow, batch и CDC-пайплайны"
         intent: answer_pipeline_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - data volumes
+  - story: '[DE] positive - data volumes'
     steps:
       - user: "Работал с терабайтными датасетами в S3 и PB-хранилищами в BigQuery"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - batch streaming
+  - story: '[DE] positive - batch streaming'
     steps:
       - user: "Batch через Airflow каждую ночь, streaming через Kafka и Flink"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - kafka spark
+  - story: '[DE] positive - kafka spark'
     steps:
       - user: "Kafka для событийной шины, Spark для тяжёлых трансформаций"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - warehouse
+  - story: '[DE] positive - warehouse'
     steps:
       - user: "BigQuery — основной DWH, dbt для трансформаций и тестов качества"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - tools
+  - story: '[DE] positive - tools'
     steps:
       - user: "Airflow, dbt, Kafka, Spark, Debezium, Great Expectations"
         intent: answer_tools
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - cloud
+  - story: '[DE] positive - cloud'
     steps:
       - user: "Да, основной стек GCP: BigQuery, Dataflow, Cloud Storage"
         intent: answer_cloud_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - sql level
+  - story: '[DE] positive - sql level'
     steps:
       - user: "Продвинутый SQL, пишу оконные функции, оптимизирую запросы"
         intent: answer_sql_level
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - sql optimization
+  - story: '[DE] positive - sql optimization'
     steps:
       - user: "Партиционирование таблиц, индексы, execution plan анализ"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - orchestration
+  - story: '[DE] positive - orchestration'
     steps:
       - user: "Airflow с DAGами, retry-политиками и SLA-мониторингом"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - monitoring
+  - story: '[DE] positive - monitoring'
     steps:
       - user: "Great Expectations для data quality, алерты в Slack через Airflow callbacks"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DE] positive - salary
+  - story: '[DE] positive - salary'
     steps:
       - user: "Рассчитываю на 280000 рублей"
         intent: provide_salary
@@ -202,7 +202,7 @@ stories:
 
   # ─── Data Analyst — полный позитивный путь ────────────────────────────────
 
-  - story: [DA] positive - experience and role selection
+  - story: '[DA] positive - experience and role selection'
     steps:
       - user: "3 года работаю аналитиком"
         intent: provide_experience
@@ -213,70 +213,70 @@ stories:
       - action: utter_transition_to_role_questions
       - action: action_route_to_role_interview
 
-  - story: [DA] positive - business domain
+  - story: '[DA] positive - business domain'
     steps:
       - user: "E-commerce и финтех, продуктовая аналитика конверсий и retention"
         intent: answer_business_domain
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DA] positive - product metrics
+  - story: '[DA] positive - product metrics'
     steps:
       - user: "DAU, MAU, Retention D1/D7/D30, LTV, конверсия воронки, churn rate"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DA] positive - ab tests
+  - story: '[DA] positive - ab tests'
     steps:
       - user: "Да, A/B тесты с t-test и chi-square, считал MDE и sample size заранее"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DA] positive - funnel cohort
+  - story: '[DA] positive - funnel cohort'
     steps:
       - user: "Cohort retention в SQL, воронки onboarding и оплаты в Amplitude"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DA] positive - viz tools
+  - story: '[DA] positive - viz tools'
     steps:
       - user: "Power BI для C-level, Plotly Dash для продукта, иногда Tableau"
         intent: answer_viz_tools
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DA] positive - sql level
+  - story: '[DA] positive - sql level'
     steps:
       - user: "Продвинутый SQL: CTE, оконные функции, сложные JOIN"
         intent: answer_sql_level
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DA] positive - bi dashboards
+  - story: '[DA] positive - bi dashboards'
     steps:
       - user: "Строил дашборды в Power BI для маркетинга и C-level, с drill-down"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DA] positive - stakeholders
+  - story: '[DA] positive - stakeholders'
     steps:
       - user: "Проводил discovery-сессии, формализовал бизнес-требования в задачи"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DA] positive - product thinking
+  - story: '[DA] positive - product thinking'
     steps:
       - user: "Анализ воронки показал просадку на шаге подтверждения заказа — сдвинули UX-фичу в roadmap"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [DA] positive - salary
+  - story: '[DA] positive - salary'
     steps:
       - user: "Хочу 180000 рублей"
         intent: provide_salary
@@ -284,7 +284,7 @@ stories:
 
   # ─── Project Manager — полный позитивный путь ─────────────────────────────
 
-  - story: [PM] positive - experience and role selection
+  - story: '[PM] positive - experience and role selection'
     steps:
       - user: "6 лет в управлении проектами"
         intent: provide_experience
@@ -295,70 +295,70 @@ stories:
       - action: utter_transition_to_role_questions
       - action: action_route_to_role_interview
 
-  - story: [PM] positive - team size
+  - story: '[PM] positive - team size'
     steps:
       - user: "Максимум координировал команду из 15 человек"
         intent: answer_team_size
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [PM] positive - methodology
+  - story: '[PM] positive - methodology'
     steps:
       - user: "Scrum с двухнедельными спринтами, для поддержки Kanban"
         intent: answer_methodology
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [PM] positive - ml understanding
+  - story: '[PM] positive - ml understanding'
     steps:
       - user: "Хорошо понимаю цикл ML: от сбора данных до деплоя и мониторинга дрейфа"
         intent: answer_ml_understanding
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [PM] positive - risk management
+  - story: '[PM] positive - risk management'
     steps:
       - user: "Вёл risk register, еженедельный review, эскалация по RACI-матрице"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [PM] positive - budget
+  - story: '[PM] positive - budget'
     steps:
       - user: "Да, budget ownership — 20 млн рублей в год, контролировал burn-rate"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [PM] positive - conflict resolution
+  - story: '[PM] positive - conflict resolution'
     steps:
       - user: "DS и бизнес конфликтовали по метрикам — провёл воркшоп, договорились"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [PM] positive - delivery
+  - story: '[PM] positive - delivery'
     steps:
       - user: "Вёл ML-платформу рекомендаций от POC до прода, релиз за 6 месяцев"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [PM] positive - distributed team
+  - story: '[PM] positive - distributed team'
     steps:
       - user: "Команда в 3 часовых поясах, синхронизация через Jira и weekly standup"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [PM] positive - ai ml projects
+  - story: '[PM] positive - ai ml projects'
     steps:
       - user: "Управлял тремя AI-проектами: рекомендации, скоринг, NLP-классификатор"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [PM] positive - salary
+  - story: '[PM] positive - salary'
     steps:
       - user: "Ожидаю 300000 рублей в месяц"
         intent: provide_salary
@@ -366,7 +366,7 @@ stories:
 
   # ─── MLOps Engineer — полный позитивный путь ──────────────────────────────
 
-  - story: [MLOps] positive - experience and role selection
+  - story: '[MLOps] positive - experience and role selection'
     steps:
       - user: "4 года в DevOps и MLOps"
         intent: provide_experience
@@ -377,70 +377,70 @@ stories:
       - action: utter_transition_to_role_questions
       - action: action_route_to_role_interview
 
-  - story: [MLOps] positive - cicd experience
+  - story: '[MLOps] positive - cicd experience'
     steps:
       - user: "Да, GitHub Actions для обучения и деплоя, GitLab CI для staging"
         intent: answer_cicd_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [MLOps] positive - tools
+  - story: '[MLOps] positive - tools'
     steps:
       - user: "MLflow, Kubeflow, Docker, Kubernetes, Helm, Argo Workflows"
         intent: answer_tools
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [MLOps] positive - monitoring experience
+  - story: '[MLOps] positive - monitoring experience'
     steps:
       - user: "Да, Evidently для дрейфа данных, Grafana + Prometheus для инфраструктуры"
         intent: answer_monitoring_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [MLOps] positive - kubernetes
+  - story: '[MLOps] positive - kubernetes'
     steps:
       - user: "Деплой моделей в K8s через Helm charts, autoscaling по CPU"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [MLOps] positive - model registry
+  - story: '[MLOps] positive - model registry'
     steps:
       - user: "MLflow Model Registry: версионирование, staging/production стадии"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [MLOps] positive - docker
+  - story: '[MLOps] positive - docker'
     steps:
       - user: "Да, контейнеризирую training и serving, multi-stage builds"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [MLOps] positive - iac
+  - story: '[MLOps] positive - iac'
     steps:
       - user: "Terraform для AWS инфраструктуры, Ansible для конфигурации"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [MLOps] positive - serving
+  - story: '[MLOps] positive - serving'
     steps:
       - user: "Triton Inference Server для high-load, BentoML для прототипов"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [MLOps] positive - gpu
+  - story: '[MLOps] positive - gpu'
     steps:
       - user: "GPU-кластер на AWS p3, autoscaling job queue, spot instances"
         intent: answer_interview_open
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [MLOps] positive - salary
+  - story: '[MLOps] positive - salary'
     steps:
       - user: "Рассчитываю на 320000 рублей"
         intent: provide_salary
@@ -452,21 +452,21 @@ stories:
 
   # ─── Остановка интервью ───────────────────────────────────────────────────
 
-  - story: [NEG] stop interview on experience phase
+  - story: '[NEG] stop interview on experience phase'
     steps:
       - user: "Хочу остановиться"
         intent: stop_interview
       - action: utter_farewell_stopped
       - action: action_save_candidate_data
 
-  - story: [NEG] stop interview during DS questions
+  - story: '[NEG] stop interview during DS questions'
     steps:
       - user: "Прекратим собеседование"
         intent: stop_interview
       - action: utter_farewell_stopped
       - action: action_save_candidate_data
 
-  - story: [NEG] goodbye after salary question
+  - story: '[NEG] goodbye after salary question'
     steps:
       - user: "До свидания"
         intent: goodbye
@@ -475,7 +475,7 @@ stories:
 
   # ─── Малый опыт ───────────────────────────────────────────────────────────
 
-  - story: [NEG] low experience - affirm and continue
+  - story: '[NEG] low experience - affirm and continue'
     steps:
       - user: "Опыт 3 месяца, был учебный проект"
         intent: provide_experience
@@ -486,7 +486,7 @@ stories:
       - action: utter_confirm_receipt
       - action: action_say_utter_ask_role
 
-  - story: [NEG] low experience - open answer and continue
+  - story: '[NEG] low experience - open answer and continue'
     steps:
       - user: "Полгода стажировки"
         intent: provide_experience
@@ -499,7 +499,7 @@ stories:
 
   # ─── Восстановление после ошибок ─────────────────────────────────────────
 
-  - story: [ERR] unclear answer - then retry
+  - story: '[ERR] unclear answer - then retry'
     steps:
       - user: "Не понял вопрос"
         intent: fallback
@@ -509,7 +509,7 @@ stories:
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [ERR] ask repeat - then answer
+  - story: '[ERR] ask repeat - then answer'
     steps:
       - user: "Повторите, пожалуйста"
         intent: ask_repeat
@@ -519,7 +519,7 @@ stories:
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [ERR] out of scope - then return to interview
+  - story: '[ERR] out of scope - then return to interview'
     steps:
       - user: "Сколько стоит iPhone?"
         intent: out_of_scope
@@ -529,7 +529,7 @@ stories:
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
 
-  - story: [ERR] no experience answer
+  - story: '[ERR] no experience answer'
     steps:
       - user: "Нет, с этим не работал"
         intent: no_experience
@@ -537,7 +537,7 @@ stories:
 
   # ─── Кандидат сомневается ─────────────────────────────────────────────────
 
-  - story: [ERR] candidate thinks unsuitable then continues
+  - story: '[ERR] candidate thinks unsuitable then continues'
     steps:
       - user: "Кажется, я не подхожу на эту роль"
         intent: unsuitable
@@ -549,7 +549,7 @@ stories:
 
   # ─── Перезапуск после завершения ──────────────────────────────────────────
 
-  - story: [EDGE] greet again after farewell
+  - story: '[EDGE] greet again after farewell'
     steps:
       - user: "Привет"
         intent: greet
@@ -557,7 +557,7 @@ stories:
 
   # ─── Подтверждение готовности перед именем ────────────────────────────────
 
-  - story: [EDGE] confirm readiness before name
+  - story: '[EDGE] confirm readiness before name'
     steps:
       - user: "Привет"
         intent: greet
