@@ -2,9 +2,9 @@
 
 ## 1. Описание проекта
 
-**HR Interview Bot** — чат-бот для **первичного интервью** кандидатов на роли в ML- и data-команде (MVP). Бот ведёт пошаговый диалог на русском языке, собирает ответы в слоты, **оценивает профиль по выбранной одной роли** (score 0–100), выводит **объяснимый итог** (сильные/слабые стороны, предупреждения о противоречиях, зарплатный комментарий) и сохраняет результат в JSON для рекрутера.
+**HR Interview Bot** - чат-бот для **первичного интервью** кандидатов на роли в ML- и data-команде (MVP). Бот ведет пошаговый диалог на русском языке, собирает ответы в слоты, **оценивает профиль по выбранной одной роли** (score 0-100), выводит **объяснимый итог** (сильные/слабые стороны, предупреждения о противоречиях, зарплатный комментарий) и сохраняет результат в JSON для рекрутера.
 
-Проект реализован на **Rasa 3.x** (язык ассистента: `ru`). Подключение к мессенджерам задаётся через `credentials.yml` (по умолчанию в репозитории задейкларирован **REST channel**; Telegram и другие каналы можно добавить по [документации Rasa](https://rasa.com/docs/rasa/messaging-and-voice-channels)).
+Проект реализован на **Rasa 3.x** (язык ассистента: `ru`). Подключение к мессенджерам задается через `credentials.yml` (по умолчанию в репозитории задекларирован **REST channel**; Telegram и другие каналы можно добавить по [документации Rasa](https://rasa.com/docs/rasa/messaging-and-voice-channels)).
 
 ## 2. Поддерживаемые роли
 
@@ -23,17 +23,17 @@
 ## 3. Основные возможности
 
 - Сбор **имени**, **опыта (лет)**, **целевой роли**, **ролевого блока вопросов** (расширенный чек-лист под DS / DE / DA / PM / MLOps), **зарплатных ожиданий**.
-- Интент **`answer_interview_open`** для развёрнутых свободных ответов на профильные вопросы (наряду с узкими интентами вроде `answer_sql_level`, `answer_tools` и т.д.).
-- **Scoring 0–100** с эвристиками по слотам (опыт, стек, production, soft skills и др.).
-- **Решение по порогам**: Strong Hire (80–100), Hire (60–79), Maybe (40–59), Reject (менее 40); слот `is_suitable` = true, если решение не Reject.
+- Интент **`answer_interview_open`** для развернутых свободных ответов на профильные вопросы (наряду с узкими интентами вроде `answer_sql_level`, `answer_tools` и т.д.).
+- **Scoring 0-100** с эвристиками по слотам (опыт, стек, production, soft skills и др.).
+- **Решение по порогам**: Strong Hire (80-100), Hire (60-79), Maybe (40-59), Reject (менее 40); слот `is_suitable` = true, если решение не Reject.
 - **Explainability**: список сильных/слабых сторон, рекомендация, **consistency warnings** (противоречия в ответах).
 - **Оценка зарплаты**: сравнение с ориентирами по роли и уровню, блок **salary-to-skill**.
 - **Сохранение сессии** в `data/candidates/<sender_id>_<timestamp>.json` после оценки или при досрочном выходе (см. `action_save_candidate_data`).
 - Повтор вопроса (`ask_repeat`), обработка вне темы (`out_of_scope`), остановка интервью (`stop_interview`), fallback.
 
-Подробная установка Python и зависимостей без готового `requirements.txt` — в **`SETUP_PYTHON.md`** (Rasa поддерживает Python **3.8–3.10**).
+Подробная установка Python и зависимостей без готового `requirements.txt` - в **`SETUP_PYTHON.md`** (Rasa поддерживает Python **3.8-3.10**).
 
-## 4. Пользовательский сценарий (упрощённо)
+## 4. Пользовательский сценарий (упрощенно)
 
 Типичная последовательность (без привязки к конкретному каналу):
 
@@ -43,7 +43,7 @@
 Иван
 3 года
 Data Analyst
-[ответы на вопросы по роли — текстом или кнопками]
+[ответы на вопросы по роли - текстом или кнопками]
 180000
 ```
 
@@ -51,7 +51,7 @@ Data Analyst
 
 ## 5. Логика диалога
 
-Диалог управляется **правилами (`rules.yml`)** и **историями (`stories.yml`)** + **custom actions** в `actions/actions.py`. **Rasa Forms в этом проекте не используются** — последовательность вопросов задаётся слотом `last_question_key` и функцией `_next_question_response`.
+Диалог управляется **правилами (`rules.yml`)** и **историями (`stories.yml`)** + **custom actions** в `actions/actions.py`. **Rasa Forms в этом проекте не используются** - последовательность вопросов задается слотом `last_question_key` и функцией `_next_question_response`.
 
 ```mermaid
 flowchart TD
@@ -69,7 +69,7 @@ flowchart TD
 
 ### Контекстная обработка
 
-Ответы маппятся в слоты с учётом **текущего вопроса** (`last_question_key`) и интента; часть полей нормализуется эвристиками (`_norm_python_level`, `_norm_sql_level`, `_norm_bool`, парсинг зарплаты и т.д.).
+Ответы маппятся в слоты с учетом **текущего вопроса** (`last_question_key`) и интента; часть полей нормализуется эвристиками (`_norm_python_level`, `_norm_sql_level`, `_norm_bool`, парсинг зарплаты и т.д.).
 
 | Ситуация | Поведение |
 |----------|-----------|
@@ -80,26 +80,26 @@ flowchart TD
 
 ## 6. Скоринговая модель (MVP)
 
-Общий **score 0–100** считается в `actions/actions.py` **отдельно для каждой роли** (функции `_score_data_scientist`, `_score_data_engineer`, и т.д.). Внутри учитываются, в частности:
+Общий **score 0-100** считается в `actions/actions.py` **отдельно для каждой роли** (функции `_score_data_scientist`, `_score_data_engineer`, и т.д.). Внутри учитываются, в частности:
 
 - стаж и автоматический **уровень** Junior / Middle / Senior;
 - **корректировка score по уровню** (`_apply_level_score_adjustment`);
 - **soft skills** (короткая эвристика по тексту ответов, до 15 баллов);
-- штрафы за пробелы вместо жёсткого «reject только из-за одного флага» там, где это ослаблено в логике MVP.
+- штрафы за пробелы вместо жесткого «reject только из-за одного флага» там, где это ослаблено в логике MVP.
 
 ### Решение по score
 
 | Score | Решение (слот `hire_decision`) |
 |------:|--------------------------------|
-| 80–100 | Strong Hire |
-| 60–79 | Hire |
-| 40–59 | Maybe |
-| 0–39 | Reject |
+| 80-100 | Strong Hire |
+| 60-79 | Hire |
+| 40-59 | Maybe |
+| 0-39 | Reject |
 
 ### Предупреждения и зарплата
 
-- **`consistency_warnings`** — строки о возможных противоречиях (например, мало опыта при «продвинутом Python»).
-- **`_salary_assessment`** — вилка по рынку для роли и уровня + **salary-to-skill** при наличии score.
+- **`consistency_warnings`** - строки о возможных противоречиях (например, мало опыта при «продвинутом Python»).
+- **`_salary_assessment`** - вилка по рынку для роли и уровня + **salary-to-skill** при наличии score.
 
 ## 7. Архитектура
 
@@ -132,7 +132,7 @@ flowchart TD
 │   ├── nlu.yml
 │   ├── rules.yml
 │   ├── stories.yml
-│   └── candidates/         # JSON-артефакты после интервью (создаётся при сохранении)
+│   └── candidates/         # JSON-артефакты после интервью (создается при сохранении)
 ├── tests/
 │   └── test_stories.yml    # при необходимости замените на сценарии этого бота
 ├── config.yml
@@ -157,7 +157,7 @@ flowchart TD
 
 ### Подробно: `config.yml`
 
-Ниже — зачем выставлены текущие значения (MVP, русский диалог, много похожих свободных формулировок и технических терминов).
+Ниже - зачем выставлены текущие значения (MVP, русский диалог, много похожих свободных формулировок и технических терминов).
 
 **Верхний уровень**
 
@@ -165,21 +165,21 @@ flowchart TD
 |----------|----------|--------|
 | `recipe` | `default.v1` | Стандартный рецепт Rasa 3: совместимый стек компонентов и политик. |
 | `assistant_id` | уникальная строка | Идентификатор ассистента для внутренних метаданных Rasa; можно заменить на свой при форке. |
-| `language` | `ru` | Язык проекта — русские примеры в NLU и ответы; влияет на ожидания токенизации (без отдельного русского стеммера в этом пайплайне). |
+| `language` | `ru` | Язык проекта - русские примеры в NLU и ответы; влияет на ожидания токенизации (без отдельного русского стеммера в этом пайплайне). |
 
 **Pipeline NLU**
 
 | Компонент | Настройки | Причина |
 |-----------|-----------|---------|
-| `WhitespaceTokenizer` | по умолчанию | Быстрый разбор на слова по пробелам; для коротких реплик интервью и смеси RU/EN достаточно; не тянет тяжёлый spaCy. |
+| `WhitespaceTokenizer` | по умолчанию | Быстрый разбор на слова по пробелам; для коротких реплик интервью и смеси RU/EN достаточно; не тянет тяжелый spaCy. |
 | `RegexFeaturizer` | по умолчанию | Дополнительные признаки по регекспам из конфигурации фич (если заданы); слегка помогает устойчивости NLU. |
-| `LexicalSyntacticFeaturizer` | по умолчанию | Базовые синтаксические/лексические шаблоны (префиксы, суффиксы и т.д.) — разведение похожих фраз («нет опыта» vs «есть опыт»). |
+| `LexicalSyntacticFeaturizer` | по умолчанию | Базовые синтаксические/лексические шаблоны (префиксы, суффиксы и т.д.) - разведение похожих фраз («нет опыта» vs «есть опыт»). |
 | `CountVectorsFeaturizer` | слово | Мешок слов по токенам: основной сигнал для классификации интентов. |
 | `CountVectorsFeaturizer` | `analyzer: char_wb`, `min_ngram: 1`, `max_ngram: 4` | Символьные n-gram по границам слова: **опечатки**, сокращения (`DE`, `DS`), англ. названия внутри русского текста (`Airflow`, `sklearn`), разный регистр. |
-| `DIETClassifier` | `epochs: 100`, `constrain_similarities: true` | Joint-модель интентов и сущностей; 100 эпох — запас для небольшого корпуса; `constrain_similarities: true` стабилизирует обучение с cross-entropy (рекомендация Rasa). |
-| `EntitySynonymMapper` | — | Приведение синонимов к каноническим значениям сущностей (роли из `nlu.yml`). |
-| `ResponseSelector` | `epochs: 100` | Включён в дефолтном рецепте; нужен, если используются retrieval-ответы; при минимальном использовании почти не влияет на размер модели. |
-| `FallbackClassifier` | `threshold: 0.3`, `ambiguity_threshold: 0.1` | Если уверенность NLU **ниже 0.3**, уходит в fallback (`nlu_fallback` → `action_default_fallback`) — снижает ложные срабатывания на шум и «мимо сценария». `ambiguity_threshold`: если два интента почти равны по score, тоже считать ситуацию неоднозначной и уводить в fallback. |
+| `DIETClassifier` | `epochs: 100`, `constrain_similarities: true` | Joint-модель интентов и сущностей; 100 эпох - запас для небольшого корпуса; `constrain_similarities: true` стабилизирует обучение с cross-entropy (рекомендация Rasa). |
+| `EntitySynonymMapper` | - | Приведение синонимов к каноническим значениям сущностей (роли из `nlu.yml`). |
+| `ResponseSelector` | `epochs: 100` | Включен в дефолтном рецепте; нужен, если используются retrieval-ответы; при минимальном использовании почти не влияет на размер модели. |
+| `FallbackClassifier` | `threshold: 0.3`, `ambiguity_threshold: 0.1` | Если уверенность NLU **ниже 0.3**, уходит в fallback (`nlu_fallback` -> `action_default_fallback`) - снижает ложные срабатывания на шум и «мимо сценария». `ambiguity_threshold`: если два интента почти равны по score, тоже считать ситуацию неоднозначной и уводить в fallback. |
 
 **Policies (диалог)**
 
@@ -191,113 +191,19 @@ flowchart TD
 
 При сильном росте корпуса NLU имеет смысл отдельно подобрать `threshold` / `ambiguity_threshold` и число эпох по валидационной кривой, чтобы не резать слишком много в fallback и не пропускать ошибочные интенты.
 
-## 9. Модель после обучения
-
-После `rasa train` архив модели появляется в каталоге **`models/`** (в `.gitignore` — в Git обычно не коммитится). Запуск с указанием конкретного файла:
-
-```bash
-rasa run --model models/<имя_архива>.tar.gz
-```
-
-## 10. Запуск локально
-
-Корень проекта — папка с `config.yml` (например `.../NLP_Lab_1/NLP_Lab_1`).
-
-Рекомендуется Python **3.10** и виртуальное окружение `.venv` (см. **`SETUP_PYTHON.md`**).
-
-```bash
-export PYTHONIOENCODING=utf-8
-export SQLALCHEMY_SILENCE_UBER_WARNING=1   # убирает часть предупреждений SQLAlchemy 2.0
-```
-
-**Терминал 1 — action server:**
-
-```bash
-cd /path/to/NLP_Lab_1
-source .venv/bin/activate   # Windows: .venv\Scripts\activate
-python -m rasa run actions --actions actions
-```
-
-**Терминал 2 — Rasa с API и CORS (под REST-тесты):**
-
-```bash
-cd /path/to/NLP_Lab_1
-source .venv/bin/activate
-python -m rasa run --enable-api --credentials credentials.yml --endpoints endpoints.yml --model models/<ваш_архив>.tar.gz --cors "*"
-```
-
-Проверка сервисов:
-
-```bash
-curl -s http://localhost:5055/health
-curl -s http://localhost:5005/status
-```
-
-**REST webhook** (если в `credentials.yml` включён канал `rest:`):
-
-```text
-http://localhost:5005/webhooks/rest/webhook
-```
-
-### Валидация и обучение
-
-```bash
-python -m rasa data validate
-python -m rasa train --force
-```
-
-Ожидаемо при успешной проверке структуры историй:
-
-```text
-No story structure conflicts found.
-```
-
-### Rasa Shell
-
-```bash
-python -m rasa shell --model models/<ваш_архив>.tar.gz
-```
-
-## 11. Telegram и другие каналы
-
-В текущем репозитории **нет** кастомного `telegram_channel.py` — для Telegram следует добавить стандартный или кастомный канал в `credentials.yml` и настроить webhook по [документации Rasa](https://rasa.com/docs/rasa/connectors/telegram). Нужны публичный HTTPS-URL, токен бота и запущенные Rasa + action server на портах **5005** и **5055**.
-
-## 12. Проверка качества
-
-```bash
-python -m py_compile actions/actions.py
-python -m rasa data validate
-```
-
-При обучении Rasa может выводить **UserWarning**: utterance не используется ни в одной story/rule — это ожидаемо для ответов, которые вызываются **только из custom actions** (`utter_message(response=...)` или `action_say_utter_*`). На работу бота это не указывает.
-
-**Важно:** не добавляйте в `stories.yml` шаг `action_assess_candidate` сразу после `action_collect_salary`, если в **rules** после `action_collect_salary` предполагается ожидание пользователя: оценка уже вызывается через **`FollowupAction("action_assess_candidate")`** из `action_collect_salary` — дублирование в story даёт **конфликт с RulePolicy** при `rasa train`.
-
-## 13. Сохранение результатов
-
-После `action_assess_candidate` / прощания вызывается **`action_save_candidate_data`**: JSON с полями вроде `candidate_name`, `desired_role`, `experience_years`, `candidate_score`, `hire_decision`, `candidate_strengths`, `candidate_weaknesses`, `consistency_warnings`, `salary_expectation`, `role_specific_slots`, `timestamp`.
-
-Путь по умолчанию:
-
-```text
-data/candidates/<sender_id>_<UTC_timestamp>.json
-```
-
-При необходимости добавьте `data/candidates/*.json` в `.gitignore`, чтобы не коммитить тестовые диалоги.
-
-## 14. Что не попадает в Git (типично)
+## 9. Что не попадает в Git (типично)
 
 См. `.gitignore`: `.venv/`, `.rasa/`, `models/`, `*.tar.gz`, кэши, логи и т.д.
 
-## 15. Дорожная карта (идеи)
+## 10. Дорожная карта (идеи)
 
 - Отдельный экспорт CSV / единая папка `exports/` для рекрутинга.
 - Regression stories / тесты диалога под актуальные интенты.
 - Подключение Telegram / другого канала и smoke-скрипт под REST.
-- Ослабление эвристик NLU за счёт большего корпуса реальных диалогов.
+- Ослабление эвристик NLU за счет большего корпуса реальных диалогов.
 - Опционально: LLM для перефразирования summary (сейчас rule-based).
 
-## 16. Команда проекта
+## 11. Команда проекта
 
 **Команда 3**
 
