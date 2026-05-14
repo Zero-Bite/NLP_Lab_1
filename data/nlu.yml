@@ -652,17 +652,17 @@ nlu:
       - Желаемый уровень [175000](salary_expectation) рублей
       - В районе [145000](salary_expectation)
       - Примерно [205000](salary_expectation)
-      - [180000](salary_expectation)
-      - [150000](salary_expectation)
-      - [120000](salary_expectation)
-      - [250000](salary_expectation)
-      - [300000](salary_expectation)
-      - [80000](salary_expectation)
-      - [200000](salary_expectation)
-      - [350000](salary_expectation)
-      - [90000](salary_expectation)
-      - [75000](salary_expectation)
-      - [500000](salary_expectation)
+      - [180000](salary_expectation) рублей
+      - [150000](salary_expectation) рублей
+      - [120000](salary_expectation) в месяц
+      - [250000](salary_expectation) рублей
+      - [300000](salary_expectation) рублей
+      - [80000](salary_expectation) рублей
+      - [200000](salary_expectation) рублей
+      - [350000](salary_expectation) рублей
+      - [90000](salary_expectation) рублей
+      - [75000](salary_expectation) рублей
+      - [500000](salary_expectation) рублей
 
   - intent: provide_skills
     examples: |

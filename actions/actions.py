@@ -1348,29 +1348,29 @@ class ActionCollectName(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        text_raw = _latest_text(tracker)
+        text_raw = _latest_text(tracker).strip()
 
-        # Try entity first, then fall back to raw text (capitalised word)
-        name: Optional[str] = None
-        for ent in tracker.latest_message.get("entities", []) or []:
-            if ent.get("entity") in ("PERSON", "person", "candidate_name"):
-                name = ent.get("value", "").strip()
+        # Normalise: strip common Russian greeting prefixes before the name
+        _name_prefixes = ("меня зовут", "я ", "зовут меня", "моё имя", "мое имя", "мой имя")
+        cleaned = text_raw
+        for pfx in _name_prefixes:
+            if cleaned.lower().startswith(pfx):
+                cleaned = cleaned[len(pfx):].strip()
                 break
 
-        if not name:
-            # Heuristic: take first capitalised word that isn't a stop-word
-            stop = {"меня", "зовут", "мое", "моё", "имя", "я", "мой"}
-            for token in text_raw.split():
-                clean = re.sub(r"[^\w]", "", token)
-                if clean and clean[0].isupper() and clean.lower() not in stop:
-                    name = clean
-                    break
+        # Always use the cleaned full text as the canonical full name.
+        # Entity extractors can be unreliable with 3-word Russian names.
+        name = cleaned or text_raw or "Кандидат"
 
-        if not name:
-            name = text_raw.strip() or "Кандидат"
-
-        # Extract first name for addressing (take first word of full name/ФИО)
-        first_name = name.split()[0] if name.split() else name
+        # Extract first name for addressing.
+        # Bot asks for ФИО in Russian order: Фамилия Имя [Отчество].
+        # → for 2+ words: words[1] is Имя (first name)
+        # → for 1 word: that word itself
+        words = name.split()
+        if len(words) >= 2:
+            first_name = words[1]   # Имя in Фамилия-Имя-Отчество order
+        else:
+            first_name = words[0] if words else name
 
         dispatcher.utter_message(
             response="utter_name_acknowledged",

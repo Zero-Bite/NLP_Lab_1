@@ -532,3 +532,51 @@ rules:
     steps:
       - intent: no_experience
       - action: action_route_to_role_interview
+
+  # ─── Catch-all: provide_salary мисклассифицированный во время интервью ─────
+  # Когда NLU путает числовой ответ на вопрос интервью с зарплатой
+
+  - rule: DS interview - misclassified salary intent
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_ds
+    steps:
+      - intent: provide_salary
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DE interview - misclassified salary intent
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_de
+    steps:
+      - intent: provide_salary
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: DA interview - misclassified salary intent
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_da
+    steps:
+      - intent: provide_salary
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: PM interview - misclassified salary intent
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_pm
+    steps:
+      - intent: provide_salary
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - rule: MLOps interview - misclassified salary intent
+    condition:
+      - slot_was_set:
+          - interview_stage: interview_mlops
+    steps:
+      - intent: provide_salary
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
