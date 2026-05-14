@@ -42,8 +42,7 @@ rules:
           - interview_stage: greeting
     steps:
       - intent: provide_name
-      - action: utter_confirm_name
-      - action: action_say_utter_ask_experience
+      - action: action_collect_name
 
   - rule: Candidate doubts selection outcome
     steps:
@@ -96,16 +95,6 @@ rules:
           - interview_stage: collect_role
     steps:
       - intent: provide_desired_role
-      - action: utter_transition_to_role_questions
-      - action: action_route_to_role_interview
-    wait_for_user_input: true
-
-  - rule: Provide role preference then transition
-    condition:
-      - slot_was_set:
-          - interview_stage: collect_role
-    steps:
-      - intent: provide_role_preference
       - action: utter_transition_to_role_questions
       - action: action_route_to_role_interview
     wait_for_user_input: true
@@ -474,15 +463,7 @@ rules:
       - intent: no_experience
       - action: action_route_to_role_interview
 
-  - rule: Collect salary after role interview
-    condition:
-      - slot_was_set:
-          - interview_stage: collect_salary
-    steps:
-      - intent: provide_salary_expectation
-      - action: action_collect_salary
-
-  - rule: Collect salary variant 2
+  - rule: Collect salary
     condition:
       - slot_was_set:
           - interview_stage: collect_salary

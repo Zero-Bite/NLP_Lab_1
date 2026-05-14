@@ -6,7 +6,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, List, Optional, Text, Tuple
 
 from rasa_sdk import Action, Tracker
-from rasa_sdk.events import FollowupAction, SlotSet
+from rasa_sdk.events import AllSlotsReset, FollowupAction, SlotSet
 from rasa_sdk.executor import CollectingDispatcher
 
 
@@ -1305,13 +1305,17 @@ class ActionGreet(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         stage = tracker.get_slot("interview_stage")
-        if stage and stage not in ("idle", None):
+        if stage and stage not in ("idle", None, "farewell", "end"):
             return []
+        events: List[Dict[Text, Any]] = []
+        if stage in ("farewell", "end"):
+            events.append(AllSlotsReset())
         dispatcher.utter_message(response="utter_greet")
-        return [
+        events += [
             SlotSet("interview_stage", "greeting"),
             SlotSet("last_question_key", "utter_ask_name"),
         ]
+        return events
 
 
 class ActionConfirmReadiness(Action):
@@ -1364,13 +1368,17 @@ class ActionCollectName(Action):
         if not name:
             name = text_raw.strip() or "Кандидат"
 
+        # Extract first name for addressing (take first word of full name/ФИО)
+        first_name = name.split()[0] if name.split() else name
+
         dispatcher.utter_message(
             response="utter_name_acknowledged",
-            **{"candidate_name": name},
+            **{"candidate_first_name": first_name},
         )
         dispatcher.utter_message(response="utter_ask_experience")
         return [
             SlotSet("candidate_name", name),
+            SlotSet("candidate_first_name", first_name),
             SlotSet("interview_stage", "collect_experience"),
             SlotSet("last_question_key", "utter_ask_experience"),
         ]

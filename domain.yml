@@ -13,8 +13,6 @@ intents:
   - provide_name
   - provide_experience
   - provide_desired_role
-  - provide_role_preference
-  - provide_salary_expectation
   - provide_salary
   - provide_skills
   - provide_project_experience
@@ -51,6 +49,11 @@ slots:
     mappings:
       - type: from_entity
         entity: candidate_name
+
+  candidate_first_name:
+    type: text
+    mappings:
+      - type: custom
 
   experience_years:
     type: float
@@ -380,19 +383,19 @@ slots:
 
 responses:
   utter_greet:
-    - text: "Привет! Я HR-бот. Проведу первичное интервью (примерно пять–семь минут). Задам вопросы по очереди: по одному за раз. Как вас зовут?"
+    - text: "Привет! Я HR-бот. Проведу первичное интервью (примерно пять–семь минут). Задам вопросы по очереди: по одному за раз. Представьтесь, пожалуйста: укажите ваше ФИО."
 
   utter_ask_name:
-    - text: "Как вас зовут?"
+    - text: "Представьтесь, пожалуйста: укажите ваше ФИО."
 
   utter_intro_after_readiness:
-    - text: "Понятно. Тогда начнём с короткого блока про вас: как вас зовут?"
+    - text: "Понятно. Тогда начнём с короткого блока про вас: представьтесь, пожалуйста (ФИО)."
 
   utter_confirm_name:
-    - text: "Приятно познакомиться, {candidate_name}!"
+    - text: "Приятно познакомиться, {candidate_first_name}!"
 
   utter_name_acknowledged:
-    - text: "Приятно познакомиться, {candidate_name}!"
+    - text: "Приятно познакомиться, {candidate_first_name}!"
 
   utter_experience_parse_error:
     - text: "Не смог распознать число лет опыта. Напишите, пожалуйста, цифрой, например: 2 или 0.5."
@@ -541,10 +544,10 @@ responses:
     - text: "Укажите сумму цифрами, например: 150000."
 
   utter_farewell_suitable:
-    - text: "Спасибо, {candidate_name}. На основе нашего разговора ваш профиль соответствует позиции {desired_role}. Наш специалист свяжется с вами в течение двух рабочих дней."
+    - text: "Спасибо, {candidate_first_name}. На основе нашего разговора ваш профиль соответствует позиции {desired_role}. Наш специалист свяжется с вами в течение двух рабочих дней."
 
   utter_farewell_not_suitable:
-    - text: "Спасибо за участие, {candidate_name}. К сожалению, на данный момент ваш профиль не совпадает с нашими открытыми позициями. Мы сохраним данные и свяжемся при появлении подходящей вакансии."
+    - text: "Спасибо за участие, {candidate_first_name}. К сожалению, на данный момент ваш профиль не совпадает с нашими открытыми позициями. Мы сохраним данные и свяжемся при появлении подходящей вакансии."
 
   utter_farewell_stopped:
     - text: "Понятно. Если захотите продолжить позже — просто напишите снова. Спасибо за ваше время."

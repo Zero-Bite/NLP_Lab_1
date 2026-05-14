@@ -1,351 +1,263 @@
 version: "3.1"
 
 stories:
-  - story: greet and confirm readiness
+
+  # ─── Greeting / onboarding ────────────────────────────────────────────────
+
+  - story: user greets and provides name immediately
+    steps:
+      - intent: greet
+      - action: action_greet
+      - intent: provide_name
+      - action: action_collect_name
+
+  - story: user greets and confirms readiness first
     steps:
       - intent: greet
       - action: action_greet
       - intent: confirm_readiness
       - action: action_confirm_readiness
-
-  - story: greet then provide name
-    steps:
-      - intent: greet
-      - action: action_greet
       - intent: provide_name
-      - action: utter_confirm_name
-      - action: action_say_utter_ask_experience
+      - action: action_collect_name
 
-  - story: low experience warning and continue
+  # ─── Experience collection ────────────────────────────────────────────────
+
+  - story: normal experience leads to role question
     steps:
-      - intent: greet
-      - action: action_greet
-      - intent: provide_name
-      - action: utter_confirm_name
-      - action: action_say_utter_ask_experience
+      - intent: provide_experience
+      - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
+
+  - story: low experience - warning then continue
+    steps:
       - intent: provide_experience
         entities:
           - experience_years: 0.3
-      - action: utter_confirm_receipt
-      - action: action_say_utter_low_experience_warning
-      - action: action_say_utter_ask_role
-
-  - story: low experience affirm then choose role
-    steps:
-      - intent: greet
-      - action: action_greet
-      - intent: provide_name
-      - action: utter_confirm_name
-      - action: action_say_utter_ask_experience
-      - intent: provide_experience
-        entities:
-          - experience_years: 0.5
       - action: utter_confirm_receipt
       - action: action_say_utter_low_experience_warning
       - intent: affirm
       - action: utter_confirm_receipt
       - action: action_say_utter_ask_role
 
-  - story: ask repeat then continue
+  - story: low experience - candidate answers with open text
     steps:
-      - intent: greet
-      - action: action_greet
-      - intent: provide_name
-      - action: utter_confirm_name
-      - action: action_say_utter_ask_experience
-      - intent: ask_repeat
-      - action: action_ask_repeat
       - intent: provide_experience
+        entities:
+          - experience_years: 0.5
       - action: utter_confirm_receipt
-
-  - story: out of scope recovery
-    steps:
-      - intent: greet
-      - action: action_greet
-      - intent: provide_name
-      - action: utter_confirm_name
-      - action: action_say_utter_ask_experience
-      - intent: out_of_scope
-      - action: action_handle_out_of_scope
-      - intent: provide_experience
+      - action: action_say_utter_low_experience_warning
+      - intent: answer_interview_open
       - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
 
-  - story: role selected - interview data scientist
+  # ─── Role selection ───────────────────────────────────────────────────────
+
+  - story: select data scientist
     steps:
-      - or:
-          - intent: provide_desired_role
-            entities:
-              - desired_role: data_scientist
-          - intent: provide_role_preference
-            entities:
-              - desired_role: data_scientist
+      - intent: provide_desired_role
+        entities:
+          - desired_role: data_scientist
       - action: utter_transition_to_role_questions
       - action: action_route_to_role_interview
-      - or:
-          - intent: answer_ml_experience
-          - intent: provide_project_experience
+
+  - story: select data engineer
+    steps:
+      - intent: provide_desired_role
+        entities:
+          - desired_role: data_engineer
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+
+  - story: select data analyst
+    steps:
+      - intent: provide_desired_role
+        entities:
+          - desired_role: data_analyst
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+
+  - story: select project manager
+    steps:
+      - intent: provide_desired_role
+        entities:
+          - desired_role: project_manager
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+
+  - story: select mlops engineer
+    steps:
+      - intent: provide_desired_role
+        entities:
+          - desired_role: mlops_engineer
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+
+  # ─── DS interview snippets ────────────────────────────────────────────────
+
+  - story: ds - answer ml experience
+    steps:
+      - intent: answer_ml_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
+
+  - story: ds - answer python level
+    steps:
       - intent: answer_skill_python
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
+
+  - story: ds - answer frameworks
+    steps:
       - intent: answer_frameworks
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
+
+  - story: ds - has production experience
+    steps:
       - intent: answer_production_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - or:
-          - intent: provide_salary_expectation
-          - intent: provide_salary
-      - action: action_collect_salary
 
-  - story: role selected - interview data engineer
+  - story: ds - open answer to interview question
     steps:
-      - or:
-          - intent: provide_desired_role
-            entities:
-              - desired_role: data_engineer
-          - intent: provide_role_preference
-            entities:
-              - desired_role: data_engineer
-      - action: utter_transition_to_role_questions
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
       - action: action_route_to_role_interview
+
+  - story: ds - project experience answer
+    steps:
+      - intent: provide_project_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  # ─── DE interview snippets ────────────────────────────────────────────────
+
+  - story: de - answer pipeline experience
+    steps:
       - intent: answer_pipeline_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
+
+  - story: de - answer tools
+    steps:
       - intent: answer_tools
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
+
+  - story: de - answer sql level
+    steps:
+      - intent: answer_sql_level
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - story: de - answer cloud experience
+    steps:
       - intent: answer_cloud_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - intent: answer_sql_level
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - or:
-          - intent: provide_salary_expectation
-          - intent: provide_salary
-      - action: action_collect_salary
 
-  - story: role selected - interview data analyst
+  # ─── DA interview snippets ────────────────────────────────────────────────
+
+  - story: da - answer business domain
     steps:
-      - or:
-          - intent: provide_desired_role
-            entities:
-              - desired_role: data_analyst
-          - intent: provide_role_preference
-            entities:
-              - desired_role: data_analyst
-      - action: utter_transition_to_role_questions
-      - action: action_route_to_role_interview
       - intent: answer_business_domain
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
+
+  - story: da - answer viz tools
+    steps:
       - intent: answer_viz_tools
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - intent: answer_sql_level
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - or:
-          - intent: provide_salary_expectation
-          - intent: provide_salary
-      - action: action_collect_salary
 
-  - story: role selected - interview project manager
+  # ─── PM interview snippets ────────────────────────────────────────────────
+
+  - story: pm - answer team size
     steps:
-      - or:
-          - intent: provide_desired_role
-            entities:
-              - desired_role: project_manager
-          - intent: provide_role_preference
-            entities:
-              - desired_role: project_manager
-      - action: utter_transition_to_role_questions
-      - action: action_route_to_role_interview
       - intent: answer_team_size
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
+
+  - story: pm - answer methodology
+    steps:
       - intent: answer_methodology
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
+
+  - story: pm - answer ml understanding
+    steps:
       - intent: answer_ml_understanding
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - or:
-          - intent: provide_salary_expectation
-          - intent: provide_salary
-      - action: action_collect_salary
 
-  - story: role selected - interview mlops engineer
+  # ─── MLOps interview snippets ─────────────────────────────────────────────
+
+  - story: mlops - answer cicd experience
     steps:
-      - or:
-          - intent: provide_desired_role
-            entities:
-              - desired_role: mlops_engineer
-          - intent: provide_role_preference
-            entities:
-              - desired_role: mlops_engineer
-      - action: utter_transition_to_role_questions
-      - action: action_route_to_role_interview
       - intent: answer_cicd_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - intent: answer_tools
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
+
+  - story: mlops - answer monitoring experience
+    steps:
       - intent: answer_monitoring_experience
       - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - intent: answer_interview_open
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
-      - or:
-          - intent: provide_salary_expectation
-          - intent: provide_salary
+
+  # ─── Salary collection ────────────────────────────────────────────────────
+
+  - story: candidate provides salary expectation
+    steps:
+      - intent: provide_salary
       - action: action_collect_salary
 
-  - story: unclear answer with clarification
+  # ─── No experience answers ────────────────────────────────────────────────
+
+  - story: candidate has no experience for current question
     steps:
-      - or:
-          - intent: provide_desired_role
-            entities:
-              - desired_role: data_scientist
-          - intent: provide_role_preference
-            entities:
-              - desired_role: data_scientist
-      - action: utter_transition_to_role_questions
+      - intent: no_experience
       - action: action_route_to_role_interview
-      - or:
-          - intent: answer_ml_experience
-          - intent: provide_project_experience
-      - action: utter_confirm_receipt
-      - action: action_route_to_role_interview
+
+  # ─── Error recovery ───────────────────────────────────────────────────────
+
+  - story: unclear answer - clarify then retry with python level
+    steps:
       - intent: fallback
       - action: action_handle_unclear_answer
-      - or:
-          - intent: answer_skill_python
-          - intent: no_experience
+      - intent: answer_skill_python
       - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
 
-  - story: candidate becomes unsuitable
+  - story: unclear answer - clarify then retry with open answer
     steps:
-      - or:
-          - intent: provide_desired_role
-            entities:
-              - desired_role: mlops_engineer
-          - intent: provide_role_preference
-            entities:
-              - desired_role: mlops_engineer
-      - action: utter_transition_to_role_questions
+      - intent: fallback
+      - action: action_handle_unclear_answer
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - intent: no_experience
-      - action: action_route_to_role_interview
-      - intent: no_experience
-      - action: action_route_to_role_interview
-      - intent: no_experience
-      - action: action_route_to_role_interview
-      - or:
-          - intent: provide_salary_expectation
-          - intent: provide_salary
-      - action: action_collect_salary
 
-  - story: change desired role in the middle
+  - story: ask repeat then answer open question
     steps:
-      - or:
-          - intent: provide_desired_role
-            entities:
-              - desired_role: data_analyst
-          - intent: provide_role_preference
-            entities:
-              - desired_role: data_analyst
-      - action: utter_transition_to_role_questions
+      - intent: ask_repeat
+      - action: action_ask_repeat
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
       - action: action_route_to_role_interview
-      - or:
-          - intent: provide_desired_role
-            entities:
-              - desired_role: data_engineer
-          - intent: provide_role_preference
-            entities:
-              - desired_role: data_engineer
-      - action: utter_transition_to_role_questions
+
+  - story: out of scope then return to interview
+    steps:
+      - intent: out_of_scope
+      - action: action_handle_out_of_scope
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  # ─── Candidate doubts / unsuitable ───────────────────────────────────────
+
+  - story: candidate thinks they are unsuitable
+    steps:
+      - intent: unsuitable
+      - action: action_handle_unsuitable
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
       - action: action_route_to_role_interview

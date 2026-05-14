@@ -250,29 +250,28 @@ nlu:
       - Аналитика продуктовых метрик — мой фокус
       - Управление AI-проектами как PM
       - Инфраструктура ML и деплой — про MLOps
+      - Хочу на [data_scientist](desired_role)
+      - Цель — [data_engineer](desired_role)
+      - Ближе [data_analyst](desired_role)
+      - Рассматриваю [project_manager](desired_role)
+      - Интересует [mlops_engineer](desired_role)
+      - Хочу в [data_scientist](desired_role)
+      - Притягивает роль [data_engineer](desired_role)
+      - Вакансия [data_analyst](desired_role) ок
+      - Ищу позицию [project_manager](desired_role)
+      - Хочу [mlops_engineer](desired_role)
+      - На [data_scientist](desired_role) ориентируюсь
+      - В сторону [data_engineer](desired_role)
+      - Предпочту [data_analyst](desired_role)
+      - Роль [project_manager](desired_role) подходит
+      - Хочу работать [mlops_engineer](desired_role)
+      - Мне интересен [data_scientist](desired_role)
+      - Выбираю [data_engineer](desired_role)
+      - Смотрю в сторону [data_analyst](desired_role)
+      - Позиция [project_manager](desired_role)
+      - Роль [mlops_engineer](desired_role) в приоритете
 
-  - intent: provide_salary_expectation
-    examples: |
-      - Ожидаю зарплату [150000](salary_expectation)
-      - Моя желаемая зарплата [200000](salary_expectation)
-      - Рассчитываю на [180000](salary_expectation)
-      - [120000](salary_expectation) в месяц
-      - Хотел бы получать [160000](salary_expectation)
-      - Для меня комфортно [150к](salary_expectation)
-      - Ориентир [220к](salary_expectation)
-      - От [120000](salary_expectation)
-      - Около [180000](salary_expectation) тысяч
-      - Хочу не меньше [170000](salary_expectation)
-      - Диапазон от [190000](salary_expectation) рублей
-      - Было бы хорошо [140000](salary_expectation)
-      - Ожидания на уровне [130000](salary_expectation)
-      - Рассмотрю [250000](salary_expectation)
-      - По рынку это [165000](salary_expectation)
-      - Можно ориентироваться на [155к](salary_expectation)
-      - Диапазон около [220к](salary_expectation)
-      - Желаемый уровень [175000](salary_expectation) рублей
-      - В районе [145000](salary_expectation)
-      - Примерно [205000](salary_expectation)
+  # provide_salary_expectation и provide_role_preference объединены выше
 
   - intent: answer_skill_python
     examples: |
@@ -296,6 +295,21 @@ nlu:
       - Python: intermediate
       - Python advanced, много практики
       - Оценю Python как продвинутый
+      - средний
+      - начальный
+      - продвинутый
+      - средний уровень
+      - начальный уровень
+      - продвинутый уровень
+      - уровень средний
+      - уровень начальный
+      - уровень продвинутый
+      - intermediate
+      - beginner
+      - advanced
+      - начинающий
+      - средненький
+      - хороший уровень
 
   - intent: answer_ml_experience
     examples: |
@@ -598,28 +612,7 @@ nlu:
       - Я не удовлетворяю требованиям?
       - Не прошёл отбор
 
-  - intent: provide_role_preference
-    examples: |
-      - Хочу на [data_scientist](desired_role)
-      - Цель — [data_engineer](desired_role)
-      - Ближе [data_analyst](desired_role)
-      - Рассматриваю [project_manager](desired_role)
-      - Интересует [mlops_engineer](desired_role)
-      - Хочу в [data_scientist](desired_role)
-      - Притягивает роль [data_engineer](desired_role)
-      - Вакансия [data_analyst](desired_role) ок
-      - Ищу позицию [project_manager](desired_role)
-      - Хочу [mlops_engineer](desired_role)
-      - На [data_scientist](desired_role) ориентируюсь
-      - В сторону [data_engineer](desired_role)
-      - Предпочту [data_analyst](desired_role)
-      - Роль [project_manager](desired_role) подходит
-      - Хочу работать [mlops_engineer](desired_role)
-      - Мне интересен [data_scientist](desired_role)
-      - Выбираю [data_engineer](desired_role)
-      - Смотрю в сторону [data_analyst](desired_role)
-      - Позиция [project_manager](desired_role)
-      - Роль [mlops_engineer](desired_role) в приоритете
+  # provide_role_preference объединён с provide_desired_role (выше)
 
   - intent: provide_salary
     examples: |
@@ -643,6 +636,22 @@ nlu:
       - Нижняя граница [125000](salary_expectation)
       - Уровень вознаграждения [215000](salary_expectation)
       - Минимум [148000](salary_expectation) на руки
+      - Ожидаю зарплату [150000](salary_expectation)
+      - Моя желаемая зарплата [200000](salary_expectation)
+      - [120000](salary_expectation) в месяц
+      - Для меня комфортно [150к](salary_expectation)
+      - Ориентир [220к](salary_expectation)
+      - Около [180000](salary_expectation) тысяч
+      - Хочу не меньше [170000](salary_expectation)
+      - Диапазон от [190000](salary_expectation) рублей
+      - Было бы хорошо [140000](salary_expectation)
+      - Ожидания на уровне [130000](salary_expectation)
+      - Рассмотрю [250000](salary_expectation)
+      - По рынку это [165000](salary_expectation)
+      - Диапазон около [220к](salary_expectation)
+      - Желаемый уровень [175000](salary_expectation) рублей
+      - В районе [145000](salary_expectation)
+      - Примерно [205000](salary_expectation)
 
   - intent: provide_skills
     examples: |
