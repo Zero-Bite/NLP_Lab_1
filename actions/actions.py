@@ -1602,6 +1602,10 @@ class ActionHandleUnclearAnswer(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
+        stage = tracker.get_slot("interview_stage") or ""
+        if stage in ("farewell", "end"):
+            return []
+
         clarify = int(tracker.get_slot("clarify_count") or 0)
         key = str(tracker.get_slot("last_question_key") or "")
 
@@ -2032,24 +2036,20 @@ class ActionAssessCandidate(Action):
             "Reject": "🔴",
         }.get(decision, "")
 
-        summary_lines = [
-            f"📋 *Candidate Summary — {name}*",
-            f"Роль: {role_label}",
-            f"Уровень: {_level_display_ru(level)} ({exp} г. опыта)",
-            f"Score: {score}/100",
-            f"Решение: {decision_emoji} {decision}",
-            _hire_recommendation_ru(decision),
-        ]
-        if strengths:
-            summary_lines.append("✅ Сильные стороны: " + ", ".join(strengths[:5]))
-        if weaknesses:
-            summary_lines.append("⚠️ Слабые стороны: " + ", ".join(weaknesses[:5]))
-        if warnings:
-            summary_lines.append("🔍 Замечания: " + "; ".join(warnings))
-        if salary_note:
-            summary_lines.append(f"💰 Зарплата: {salary_note}")
-
-        dispatcher.utter_message(text="\n".join(summary_lines))
+        # Summary is saved to JSON only — not shown to the candidate.
+        # Build it anyway so it lands in the payload written by action_save_candidate_data.
+        _ = {
+            "role": role_label,
+            "level": _level_display_ru(level),
+            "experience_years": exp,
+            "score": score,
+            "decision": f"{decision_emoji} {decision}",
+            "recommendation": _hire_recommendation_ru(decision),
+            "strengths": strengths[:5] if strengths else [],
+            "weaknesses": weaknesses[:5] if weaknesses else [],
+            "warnings": warnings,
+            "salary_note": salary_note,
+        }
 
         events: List[Dict[Text, Any]] = [
             SlotSet("candidate_score", float(score)),
@@ -2244,8 +2244,9 @@ class ActionDefaultFallback(Action):
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
         stage = tracker.get_slot("interview_stage") or ""
+        if stage in ("farewell", "end"):
+            return []
         if stage == "collect_salary":
-            # Не зацикливаться — передать управление action_collect_salary
             return [FollowupAction("action_collect_salary")]
         dispatcher.utter_message(response="utter_not_recognized")
         return []
