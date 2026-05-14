@@ -1174,7 +1174,6 @@ def _next_question_response(gv: Any) -> Tuple[str, List[Dict[Text, Any]]]:
             return "utter_ask_mlops_gpu", events
 
     events.append(SlotSet("interview_stage", "collect_salary"))
-    events.append(SlotSet("awaiting_salary_input", True))
     return "utter_ask_salary", events
 
 
@@ -1640,15 +1639,25 @@ class ActionCollectSalary(Action):
         text = _latest_text(tracker)
         attempts = int(tracker.get_slot("salary_parse_attempts") or 0)
 
-        # Guard: if salary question was JUST asked in the same turn (rule
-        # chaining), action_route_to_role_interview sets awaiting_salary_input=True.
-        # The first call here clears the flag and exits — we must wait for the
-        # user's NEXT message before actually collecting salary.
-        if tracker.get_slot("awaiting_salary_input"):
-            return [SlotSet("awaiting_salary_input", False)]
-
         stage = tracker.get_slot("interview_stage") or ""
         if stage != "collect_salary":
+            return []
+
+        # Guard against rule-chaining: action_route_to_role_interview sets
+        # interview_stage=collect_salary in the same turn as the user's last
+        # interview answer, causing Rasa to immediately re-fire this action via
+        # the "Collect salary - open answer" rule before the user has replied.
+        # We detect this by checking that a user event exists AFTER the last
+        # action_route_to_role_interview event in the tracker history.
+        last_route_idx = -1
+        last_user_idx = -1
+        for i, ev in enumerate(tracker.events):
+            name = ev.get("name", "") if ev.get("event") == "action" else ""
+            if name == "action_route_to_role_interview":
+                last_route_idx = i
+            if ev.get("event") == "user":
+                last_user_idx = i
+        if last_route_idx >= 0 and last_user_idx <= last_route_idx:
             return []
 
         salary = tracker.get_slot("salary_expectation")
