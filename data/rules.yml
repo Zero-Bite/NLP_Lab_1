@@ -49,6 +49,11 @@ rules:
       - intent: unsuitable
       - action: action_handle_unsuitable
 
+  - rule: Handle unclear answer (fallback intent)
+    steps:
+      - intent: fallback
+      - action: action_handle_unclear_answer
+
   - rule: Provide experience then ask role
     condition:
       - slot_was_set:
@@ -463,12 +468,52 @@ rules:
       - intent: no_experience
       - action: action_route_to_role_interview
 
-  - rule: Collect salary
+  - rule: Collect salary - provide_salary intent
     condition:
       - slot_was_set:
           - interview_stage: collect_salary
     steps:
       - intent: provide_salary
+      - action: action_collect_salary
+
+  - rule: Collect salary - open answer
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_salary
+    steps:
+      - intent: answer_interview_open
+      - action: action_collect_salary
+
+  - rule: Collect salary - nlu fallback
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_salary
+    steps:
+      - intent: nlu_fallback
+      - action: action_collect_salary
+
+  - rule: Collect salary - fallback intent
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_salary
+    steps:
+      - intent: fallback
+      - action: action_collect_salary
+
+  - rule: Collect salary - affirm
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_salary
+    steps:
+      - intent: affirm
+      - action: action_collect_salary
+
+  - rule: Collect salary - provide skills
+    condition:
+      - slot_was_set:
+          - interview_stage: collect_salary
+    steps:
+      - intent: provide_skills
       - action: action_collect_salary
 
   - rule: Any answer in DA interview routes to role interview

@@ -50,6 +50,131 @@ stories:
       - action: utter_confirm_receipt
       - action: action_say_utter_ask_role
 
+  # ─── Experience → role selection (full chain teaches TED to wait) ─────────
+
+  - story: experience then select data scientist
+    steps:
+      - intent: provide_experience
+      - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
+      - intent: provide_desired_role
+        entities:
+          - desired_role: data_scientist
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+
+  - story: experience then select data engineer
+    steps:
+      - intent: provide_experience
+      - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
+      - intent: provide_desired_role
+        entities:
+          - desired_role: data_engineer
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+
+  - story: experience then select data analyst
+    steps:
+      - intent: provide_experience
+      - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
+      - intent: provide_desired_role
+        entities:
+          - desired_role: data_analyst
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+
+  - story: experience then select project manager
+    steps:
+      - intent: provide_experience
+      - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
+      - intent: provide_desired_role
+        entities:
+          - desired_role: project_manager
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+
+  - story: experience then select mlops engineer
+    steps:
+      - intent: provide_experience
+      - action: utter_confirm_receipt
+      - action: action_say_utter_ask_role
+      - intent: provide_desired_role
+        entities:
+          - desired_role: mlops_engineer
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+
+  # ─── Role → first interview question (teaches TED to wait after routing) ──
+
+  - story: ds - role selected then first answer
+    steps:
+      - intent: provide_desired_role
+        entities:
+          - desired_role: data_scientist
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+      - intent: answer_ml_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - story: de - role selected then first answer
+    steps:
+      - intent: provide_desired_role
+        entities:
+          - desired_role: data_engineer
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+      - intent: answer_pipeline_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - story: da - role selected then first answer
+    steps:
+      - intent: provide_desired_role
+        entities:
+          - desired_role: data_analyst
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+      - intent: answer_business_domain
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - story: pm - role selected then first answer
+    steps:
+      - intent: provide_desired_role
+        entities:
+          - desired_role: project_manager
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+      - intent: answer_team_size
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - story: mlops - role selected then first answer
+    steps:
+      - intent: provide_desired_role
+        entities:
+          - desired_role: mlops_engineer
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+      - intent: answer_cicd_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
+  - story: ds - role selected then open answer
+    steps:
+      - intent: provide_desired_role
+        entities:
+          - desired_role: data_scientist
+      - action: utter_transition_to_role_questions
+      - action: action_route_to_role_interview
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+
   # ─── Role selection ───────────────────────────────────────────────────────
 
   - story: select data scientist
@@ -205,6 +330,63 @@ stories:
       - action: action_route_to_role_interview
 
   # ─── Salary collection ────────────────────────────────────────────────────
+  # Эти истории явно показывают TED: после action_route_to_role_interview
+  # нужно ЖДАТЬ ввода пользователя, а не предсказывать другое действие.
+
+  - story: salary transition - after ds interview
+    steps:
+      - intent: answer_interview_open
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+      - intent: provide_salary
+      - action: action_collect_salary
+
+  - story: salary transition - after de interview
+    steps:
+      - intent: answer_pipeline_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+      - intent: provide_salary
+      - action: action_collect_salary
+
+  - story: salary transition - after da interview
+    steps:
+      - intent: answer_business_domain
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+      - intent: provide_salary
+      - action: action_collect_salary
+
+  - story: salary transition - after pm interview
+    steps:
+      - intent: answer_team_size
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+      - intent: provide_salary
+      - action: action_collect_salary
+
+  - story: salary transition - after mlops interview
+    steps:
+      - intent: answer_cicd_experience
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+      - intent: provide_salary
+      - action: action_collect_salary
+
+  - story: salary transition - answer interview open then salary
+    steps:
+      - intent: answer_frameworks
+      - action: utter_confirm_receipt
+      - action: action_route_to_role_interview
+      - intent: provide_salary
+      - action: action_collect_salary
+
+  - story: salary transition - no experience then salary
+    steps:
+      - intent: no_experience
+      - action: action_route_to_role_interview
+      - intent: provide_salary
+      - action: action_collect_salary
 
   - story: candidate provides salary expectation
     steps:

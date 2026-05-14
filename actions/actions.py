@@ -1606,6 +1606,12 @@ class ActionHandleUnclearAnswer(Action):
 
         if clarify >= 2:
             dispatcher.utter_message(response="utter_unclear_move_on")
+            stage = tracker.get_slot("interview_stage") or ""
+            if stage == "collect_salary":
+                return [
+                    SlotSet("clarify_count", 0.0),
+                    FollowupAction("action_collect_salary"),
+                ]
             return [
                 SlotSet("clarify_count", 0.0),
                 FollowupAction("action_route_to_role_interview"),
@@ -1631,6 +1637,12 @@ class ActionCollectSalary(Action):
     ) -> List[Dict[Text, Any]]:
         text = _latest_text(tracker)
         attempts = int(tracker.get_slot("salary_parse_attempts") or 0)
+
+        # Если вызвали без реального пользовательского ввода по зарплате
+        # (перенаправлен из fallback), просто ждём — не парсим и не зацикливаемся
+        last_key = tracker.get_slot("last_question_key") or ""
+        if last_key != "utter_ask_salary" and attempts == 0:
+            return []
 
         salary = tracker.get_slot("salary_expectation")
         if salary is None:
@@ -2081,94 +2093,126 @@ class ActionSaveCandidateData(Action):
     def name(self) -> Text:
         return "action_save_candidate_data"
 
+    @staticmethod
+    def _build_payload(tracker: Tracker, save_error: str = None) -> Dict[Text, Any]:
+        """Collect all slot data into a serialisable dict. Never raises."""
+        def _slot(name: str):
+            try:
+                return tracker.get_slot(name)
+            except Exception:
+                return None
+
+        role_specific_slots = {
+            # DS
+            "ds_ml_experience": _slot("ds_ml_experience"),
+            "ds_task_types": _slot("ds_task_types"),
+            "ds_feature_engineering": _slot("ds_feature_engineering"),
+            "ds_validation": _slot("ds_validation"),
+            "ds_ab_testing": _slot("ds_ab_testing"),
+            "ds_llm_experience": _slot("ds_llm_experience"),
+            "ds_inference_opt": _slot("ds_inference_opt"),
+            "ds_python_level": _slot("ds_python_level"),
+            "ds_frameworks": _slot("ds_frameworks"),
+            "ds_has_production": _slot("ds_has_production"),
+            "ds_python_risk": _slot("ds_python_risk"),
+            # DE
+            "de_pipeline_experience": _slot("de_pipeline_experience"),
+            "de_data_volumes": _slot("de_data_volumes"),
+            "de_batch_streaming": _slot("de_batch_streaming"),
+            "de_kafka_spark": _slot("de_kafka_spark"),
+            "de_warehouse": _slot("de_warehouse"),
+            "de_tools": _slot("de_tools"),
+            "de_cloud_experience": _slot("de_cloud_experience"),
+            "de_sql_level": _slot("de_sql_level"),
+            "de_sql_optimization": _slot("de_sql_optimization"),
+            "de_orchestration": _slot("de_orchestration"),
+            "de_monitoring": _slot("de_monitoring"),
+            # DA
+            "da_viz_tools": _slot("da_viz_tools"),
+            "da_sql_level": _slot("da_sql_level"),
+            "da_business_domain": _slot("da_business_domain"),
+            "da_product_metrics": _slot("da_product_metrics"),
+            "da_ab_tests": _slot("da_ab_tests"),
+            "da_funnel_cohort": _slot("da_funnel_cohort"),
+            "da_bi_dashboards": _slot("da_bi_dashboards"),
+            "da_stakeholders": _slot("da_stakeholders"),
+            "da_product_thinking": _slot("da_product_thinking"),
+            # PM
+            "pm_team_size": _slot("pm_team_size"),
+            "pm_methodology": _slot("pm_methodology"),
+            "pm_ml_understanding": _slot("pm_ml_understanding"),
+            "pm_risk_management": _slot("pm_risk_management"),
+            "pm_budget": _slot("pm_budget"),
+            "pm_conflict": _slot("pm_conflict"),
+            "pm_delivery": _slot("pm_delivery"),
+            "pm_distributed_team": _slot("pm_distributed_team"),
+            "pm_ai_ml_projects": _slot("pm_ai_ml_projects"),
+            # MLOps
+            "mlops_ci_cd": _slot("mlops_ci_cd"),
+            "mlops_tools": _slot("mlops_tools"),
+            "mlops_monitoring": _slot("mlops_monitoring"),
+            "mlops_kubernetes": _slot("mlops_kubernetes"),
+            "mlops_model_registry": _slot("mlops_model_registry"),
+            "mlops_docker": _slot("mlops_docker"),
+            "mlops_iac": _slot("mlops_iac"),
+            "mlops_serving": _slot("mlops_serving"),
+            "mlops_gpu": _slot("mlops_gpu"),
+        }
+        payload: Dict[Text, Any] = {
+            "candidate_name": _slot("candidate_name"),
+            "desired_role": _slot("desired_role"),
+            "experience_years": _slot("experience_years"),
+            "candidate_level": _slot("candidate_level"),
+            "candidate_score": _slot("candidate_score"),
+            "hire_decision": _slot("hire_decision"),
+            "is_suitable": _slot("is_suitable"),
+            "salary_expectation": _slot("salary_expectation"),
+            "interview_stage": _slot("interview_stage"),
+            "unsuitable_reason": _slot("unsuitable_reason"),
+            "candidate_strengths": _slot("candidate_strengths"),
+            "candidate_weaknesses": _slot("candidate_weaknesses"),
+            "consistency_warnings": _slot("consistency_warnings"),
+            "role_specific_slots": role_specific_slots,
+            "timestamp": datetime.now(timezone.utc).isoformat(),
+        }
+        if save_error:
+            payload["save_error"] = save_error
+        return payload
+
+    @staticmethod
+    def _write_json(sender_id: str, payload: Dict[Text, Any]) -> str:
+        """Write payload to disk; returns the file path. May raise."""
+        out_dir = os.path.join(os.getcwd(), "data", "candidates")
+        os.makedirs(out_dir, exist_ok=True)
+        filename = (
+            f"{sender_id}_"
+            f"{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.json"
+        )
+        filepath = os.path.join(out_dir, filename)
+        with open(filepath, "w", encoding="utf-8") as f:
+            json.dump(payload, f, ensure_ascii=False, indent=2)
+        return filepath
+
     def run(
         self,
         dispatcher: CollectingDispatcher,
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
-        role_specific_slots = {
-            # DS
-            "ds_ml_experience": tracker.get_slot("ds_ml_experience"),
-            "ds_task_types": tracker.get_slot("ds_task_types"),
-            "ds_feature_engineering": tracker.get_slot("ds_feature_engineering"),
-            "ds_validation": tracker.get_slot("ds_validation"),
-            "ds_ab_testing": tracker.get_slot("ds_ab_testing"),
-            "ds_llm_experience": tracker.get_slot("ds_llm_experience"),
-            "ds_inference_opt": tracker.get_slot("ds_inference_opt"),
-            "ds_python_level": tracker.get_slot("ds_python_level"),
-            "ds_frameworks": tracker.get_slot("ds_frameworks"),
-            "ds_has_production": tracker.get_slot("ds_has_production"),
-            "ds_python_risk": tracker.get_slot("ds_python_risk"),
-            # DE
-            "de_pipeline_experience": tracker.get_slot("de_pipeline_experience"),
-            "de_data_volumes": tracker.get_slot("de_data_volumes"),
-            "de_batch_streaming": tracker.get_slot("de_batch_streaming"),
-            "de_kafka_spark": tracker.get_slot("de_kafka_spark"),
-            "de_warehouse": tracker.get_slot("de_warehouse"),
-            "de_tools": tracker.get_slot("de_tools"),
-            "de_cloud_experience": tracker.get_slot("de_cloud_experience"),
-            "de_sql_level": tracker.get_slot("de_sql_level"),
-            "de_sql_optimization": tracker.get_slot("de_sql_optimization"),
-            "de_orchestration": tracker.get_slot("de_orchestration"),
-            "de_monitoring": tracker.get_slot("de_monitoring"),
-            # DA
-            "da_viz_tools": tracker.get_slot("da_viz_tools"),
-            "da_sql_level": tracker.get_slot("da_sql_level"),
-            "da_business_domain": tracker.get_slot("da_business_domain"),
-            "da_product_metrics": tracker.get_slot("da_product_metrics"),
-            "da_ab_tests": tracker.get_slot("da_ab_tests"),
-            "da_funnel_cohort": tracker.get_slot("da_funnel_cohort"),
-            "da_bi_dashboards": tracker.get_slot("da_bi_dashboards"),
-            "da_stakeholders": tracker.get_slot("da_stakeholders"),
-            "da_product_thinking": tracker.get_slot("da_product_thinking"),
-            # PM
-            "pm_team_size": tracker.get_slot("pm_team_size"),
-            "pm_methodology": tracker.get_slot("pm_methodology"),
-            "pm_ml_understanding": tracker.get_slot("pm_ml_understanding"),
-            "pm_risk_management": tracker.get_slot("pm_risk_management"),
-            "pm_budget": tracker.get_slot("pm_budget"),
-            "pm_conflict": tracker.get_slot("pm_conflict"),
-            "pm_delivery": tracker.get_slot("pm_delivery"),
-            "pm_distributed_team": tracker.get_slot("pm_distributed_team"),
-            "pm_ai_ml_projects": tracker.get_slot("pm_ai_ml_projects"),
-            # MLOps
-            "mlops_ci_cd": tracker.get_slot("mlops_ci_cd"),
-            "mlops_tools": tracker.get_slot("mlops_tools"),
-            "mlops_monitoring": tracker.get_slot("mlops_monitoring"),
-            "mlops_kubernetes": tracker.get_slot("mlops_kubernetes"),
-            "mlops_model_registry": tracker.get_slot("mlops_model_registry"),
-            "mlops_docker": tracker.get_slot("mlops_docker"),
-            "mlops_iac": tracker.get_slot("mlops_iac"),
-            "mlops_serving": tracker.get_slot("mlops_serving"),
-            "mlops_gpu": tracker.get_slot("mlops_gpu"),
-        }
-        payload = {
-            "candidate_name": tracker.get_slot("candidate_name"),
-            "desired_role": tracker.get_slot("desired_role"),
-            "experience_years": tracker.get_slot("experience_years"),
-            "candidate_level": tracker.get_slot("candidate_level"),
-            "candidate_score": tracker.get_slot("candidate_score"),
-            "hire_decision": tracker.get_slot("hire_decision"),
-            "is_suitable": tracker.get_slot("is_suitable"),
-            "salary_expectation": tracker.get_slot("salary_expectation"),
-            "interview_stage": tracker.get_slot("interview_stage"),
-            "unsuitable_reason": tracker.get_slot("unsuitable_reason"),
-            "candidate_strengths": tracker.get_slot("candidate_strengths"),
-            "candidate_weaknesses": tracker.get_slot("candidate_weaknesses"),
-            "consistency_warnings": tracker.get_slot("consistency_warnings"),
-            "role_specific_slots": role_specific_slots,
-            "timestamp": datetime.now(timezone.utc).isoformat(),
-        }
-
-        out_dir = os.path.join(os.getcwd(), "data", "candidates")
-        os.makedirs(out_dir, exist_ok=True)
-        filename = (
-            f"{tracker.sender_id}_"
-            f"{datetime.now(timezone.utc).strftime('%Y%m%dT%H%M%SZ')}.json"
-        )
-        with open(os.path.join(out_dir, filename), "w", encoding="utf-8") as f:
-            json.dump(payload, f, ensure_ascii=False, indent=2)
+        try:
+            payload = self._build_payload(tracker)
+            self._write_json(tracker.sender_id, payload)
+        except Exception as primary_exc:
+            # First attempt failed — try again with a minimal emergency payload
+            try:
+                emergency_payload = self._build_payload(
+                    tracker, save_error=str(primary_exc)
+                )
+                self._write_json(tracker.sender_id, emergency_payload)
+            except Exception:
+                # Filesystem completely unavailable — log and move on silently
+                import traceback
+                traceback.print_exc()
 
         return [SlotSet("interview_stage", "end")]
 
@@ -2183,6 +2227,10 @@ class ActionDefaultFallback(Action):
         tracker: Tracker,
         domain: Dict[Text, Any],
     ) -> List[Dict[Text, Any]]:
+        stage = tracker.get_slot("interview_stage") or ""
+        if stage == "collect_salary":
+            # Не зацикливаться — передать управление action_collect_salary
+            return [FollowupAction("action_collect_salary")]
         dispatcher.utter_message(response="utter_not_recognized")
         return []
 
